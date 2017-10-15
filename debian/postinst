@@ -1,0 +1,66 @@
+#! /bin/sh
+# postinst script for nullmailer
+#
+# see: dh_installdeb(1)
+
+set -e
+
+. /usr/share/debconf/confmodule
+db_version 2.0
+
+umask 022
+
+case "$1" in
+    configure|reconfigure)
+
+		db_get shared/mailname
+		echo "$RET" > /etc/mailname
+
+		db_get nullmailer/defaultdomain
+		if [ "$RET" ]; then
+			echo "$RET" > /etc/nullmailer/defaultdomain
+		else
+			echo -n > /etc/nullmailer/defaultdomain
+		fi
+
+		db_get nullmailer/relayhost
+		# securely create nullmailer/remotes with mode 0600
+		if [ ! -e /etc/nullmailer/remotes ]
+		then
+			M=$( umask )
+			umask 077
+			> /etc/nullmailer/remotes
+			chown mail:mail /etc/nullmailer/remotes
+			umask $M
+		fi
+		echo "$RET" | sed -r -e ':a s/(\[[^]:]*):/\1=/; ta' \
+				     -e 's/[[:space:]]*:[[:space:]]*/\n/g' \
+				     -e ':b s/(\[[^]=]*)=/\1:/; tb' \
+				     -e 's/[][]//g' > /etc/nullmailer/remotes
+		# zap debconf entry, as this key may contain sensitive data.
+		db_set nullmailer/relayhost ""
+
+		db_get nullmailer/adminaddr
+		if [ "$RET" ]; then
+			echo "$RET" > /etc/nullmailer/adminaddr
+		else
+			echo -n > /etc/nullmailer/adminaddr
+		fi
+
+		db_stop
+
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

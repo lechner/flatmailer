@@ -1,0 +1,99 @@
+# ITALIAN TRANSLATION OF NULLMAILER'S.PO-DEBCONF FILE
+# Copyright (C) 2007 THE NULLMAILER'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the nullmailer package.
+#
+# Vincenzo Campanella <vinz65@gmail.com>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: it\n"
+"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"POT-Creation-Date: 2012-03-01 09:23+0000\n"
+"PO-Revision-Date: 2008-10-14 17:03+0200\n"
+"Last-Translator: Vincenzo Campanella <vinz65@gmail.com>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "Mailname of your system:"
+msgstr "Mailname del sistema:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"This is the fully-qualified host name of the computer running nullmailer. It "
+"defaults to the literal name 'me'."
+msgstr ""
+"Questo è il nome completo qualificato dell'host su cui nullmailer è in "
+"esecuzione. Il valore predefinito è \"me\"."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Smarthosts:"
+msgstr "Smarthost:"
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid ""
+"This is a colon-separated list of remote servers to which to send each "
+"message. Each entry contains a remote host name or address followed by an "
+"optional protocol string 'host protocol'. The protocol name defaults to "
+"smtp, and may be followed by command-line arguments for that module."
+msgstr ""
+"È un elenco, separato da due punti (\":\"), di server remoti a cui inviare "
+"ogni messaggio. Ogni valore contiene il nome di un host remoto o l'indirizzo "
+"seguito da una stringa facoltativa di protocollo \"host protocol\". Il nome "
+"predefinito del protocollo è smtp, e può essere seguito da argomenti da "
+"linea di comando per tale modulo."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Examples:"
+msgstr "Esempi:"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid "Where to send local emails (optional):"
+msgstr "Dove inviare e-mail locali (facoltativo):"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid ""
+"If not empty, all recipients to users at either 'localhost' (the literal "
+"string) or the canonical host name (from /etc/mailname) are remapped to this "
+"address. This is provided to allow local daemons to be able to send email to "
+"'somebody@localhost' and have it go somewhere sensible instead of being "
+"bounced by your relay host."
+msgstr ""
+"Se non vuoto, tutti i destinatari di utenti a \"localhost\" (la stringa "
+"letterale) o il nome canonico dell'host (da \"/etc/mailname\") vengono ri-"
+"mappati a questo indirizzo. Questo per consentire ai demoni locali di "
+"inoltrare al corretto destinatario le email indirizzate a "
+"«qualcuno@localhost», anziché farle respingere dal proprio host di relay."
+
+#, fuzzy
+#~| msgid ""
+#~| "  smarthost\n"
+#~| "  smarthost smtp --port=10025\n"
+#~| "  smarthost smtp --user=foo --pass=bar"
+#~ msgid ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar\n"
+#~ "  192.168.1.254 qmqp\n"
+#~ "  [fe80::5054:ff:fef4:ef81] smtp"
+#~ msgstr ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar"

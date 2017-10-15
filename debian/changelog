@@ -1,0 +1,796 @@
+nullmailer (1:2.0-3) experimental; urgency=medium
+
+  * New patch from Felix Lechner to fix 32/64 bit problem (cli) on s390x
+
+ -- David Bremner <bremner@debian.org>  Tue, 10 Oct 2017 08:09:16 -0300
+
+nullmailer (1:2.0-2) experimental; urgency=medium
+
+  * Update patch for test suite race-conditions to use 'wait' instead of
+    'sleep'
+
+ -- David Bremner <bremner@debian.org>  Sat, 07 Oct 2017 08:11:59 -0300
+
+nullmailer (1:2.0-1) experimental; urgency=medium
+
+  * New upstream version
+  * New maintainer (Closes: #857248)
+  * Bug fix: "New upstream version (2.0) resolves various bugs", thanks to
+    David R. Hedges (Closes: #826026).
+  * Bug fix: "nullmailer ignores permanent SMTP errors", thanks to Roy
+    Hills (Closes: #329192).
+  * Now provides option to set system wide envelope-from address (Closes: #757690).
+  * Now logs (via systemd) start/stop of daemon (Closes: #432637).
+  * Documentation for nullmailer-send is updated (Closes: #709250).
+  * Drop support for sysvinit, due to dropping --daemon divergence from upstream
+  * Switch to debhelper compat level 10
+  * Assert compliance with policy 4.1.0
+
+ -- David Bremner <bremner@debian.org>  Sat, 23 Sep 2017 23:08:51 -0300
+
+nullmailer (1:1.13-1.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Do not keep relayhost data in debconf database longer than
+    strictly needed. (Closes: #831813)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sun, 31 Jul 2016 20:57:13 +0000
+
+nullmailer (1:1.13-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+
+  [ Alexis Bienvenüe ]
+  * Deterministic file order in archives. (Closes: #820661)
+
+  [ Christian Hofstaedtler ]
+  * Bump Standards-Version to 3.9.8.
+  * Add native systemd units, based on initial patch supplied
+    by Viktar Vauchkevich. (Closes: #760041)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Wed, 13 Jul 2016 01:15:46 +0200
+
+nullmailer (1:1.13-1) unstable; urgency=low
+
+  * Ack NMU, thankyou for your help with this package.
+  * New upstream release (Closes: #757221, LP: #236715 by adding back-off).
+  * Remove patch 07_sendquit.diff as nullmailer now does this itself.
+  * B-D on automake and dh-autoreconf rather than automake1.11 and
+    autotools-dev (new patch 13_fix_automake.diff).
+  * B-D on libgnutls28-dev (Closes: #752308) | libgnutls-dev
+  * Use pidofproc -p $PIDFILE in our initscript rather than just pidof
+    (Closes: #687827, thanks to Lorenz Schori for the fix).
+  * Update Standards-Version to 3.9.5 (no changes required).
+  * Add documentation for the smtp, qmqp and smtpd modules (Closes: #682800).
+
+ -- Nick Leverton <nick@leverton.org>  Thu, 07 Aug 2014 22:57:59 +0100
+
+nullmailer (1:1.11-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * debian/control: Switch to automake1.11. (Closes: #724423)
+
+ -- Eric Dorland <eric@debian.org>  Sun, 16 Feb 2014 16:16:57 -0500
+
+nullmailer (1:1.11-2) unstable; urgency=low
+
+  * Make 'remotes' not world-readable (Closes: #684619)
+
+ -- Nick Leverton <nick@leverton.org>  Tue, 21 Aug 2012 09:01:38 +0100
+
+nullmailer (1:1.11-1) unstable; urgency=low
+
+  * New upstream release
+  * Increase hardening level - note current lintian gives false positives,
+    c'mon lintian if you fink we ain't 'ard enough.
+  * Really use LOG_INFO on success (really Closes: #632015, LP:531796)
+  * Create and use a pidfile with start-stop-daemon so that we only stop,
+    at most, our own instance of nullmailer-send (Closes: 674125).
+
+ -- Nick Leverton <nick@leverton.org>  Sat, 16 Jun 2012 16:35:57 +0100
+
+nullmailer (1:1.10-1) unstable; urgency=low
+
+  * New upstream release (Closes: #271662, #540758, #359994, #583564, #540758,
+    LP:660089).  We now provide Sendmail's "-bs" functionality and therefore
+    no longer conflict with LSB.
+  * Upgrade to dh compat level 9 and dpkg 1.16 dpkg-buildflags.
+  * Update Policy to 3.9.3 (no change).
+  * Set defaultdomain from the domain part of /etc/mailname and allow it to
+    be empty, meaning "don't add a defaultdomain" (patch 12, Closes: #504184).
+  * Fix IPv6 autoconf check to #include stddef.h (patch 02, Closes: #605899).
+  * Support IPv6 address literals in debconf smarthost field (Closes: #625246) 
+    and update debian/templates with the new format.
+  * Use LOG_INFO not LOG_ERR when logging success (patch 03, Closes: #632015,
+    LP:531796).
+  * Ensure no cruft in source package using debian/clean (Closes: #643228).
+  * Use correct test for socket existence in initscript (Closes: #646355).
+  * Proof ourselves against multi-line mailname (Closes: #657773).
+  * New debconf translations: Danish (Closes: #659446).
+  * Fix patch 06 to correctly apply Return-Path when requested in resent mails.
+  * Mention helohost and sendtimeout in nullmailer.7 (patch 08).
+  * Update upstream info in debian/copyright and convert to DEP-5 format.
+  * Thanks to Harald Jenny for the 1.10 changes.
+
+ -- Nick Leverton <nick@leverton.org>  Wed, 16 May 2012 19:52:06 +0100
+
+nullmailer (1:1.05-1) unstable; urgency=low
+
+  * Ack NMUs, thankyou for your care of this package.
+  * New maintainer (Closes: #461244)
+  * New upstream release (Closes: #570640, #589899).
+  * Update Policy from 3.7.3 to 3.9.2:
+    - initscript won't delete and recreate nullmailer-send trigger FIFO
+      if daemon already running.  Complements --oknodo for Policy 3.8.1.
+  * Upgrade to debhhelper 7 + dh so that Policy upgrades become easy.
+  * Update from dpatch to quilt + source format "3.0 (quilt)".
+  * Update automake build-dep to current version for current ./configure.
+  * Use CPPFLAGS instead of CFLAGS (dh 7).
+  * Don't do "set -e" in initscript (Closes: #562505).
+  * Add watch file (Closes: #583556).
+  * Set rsyslog as default system log daemon (Closes: #526921).
+  * Add 'status' support to initscript (Closes: #526813) and add Description.
+  * Use ferr instead of fout for errors (patch 05, Closes: #329970).
+  * Fix handling of null envelope sender "<>" (patch 06, Closes: #188251).
+  * Send QUIT on success as well as failure, for MTAs that care about
+    strict SMTP: see RFC 5321 s3.8 (patch 07, Closes: #375380).
+  * Fix patch 02_ipv6.diff to remove reference to debian/patched (lintian).
+  * Remove redundant configure options since we no longer use automake 1.4.
+  * Remove Conflicts: with suidmanager, the latter no longer exists.
+  * Fix some remaining manpage spelling and hyphenation issues (patch 01,03).
+  * Override lintian moans about our permissions and suid binary.
+
+ -- Nick Leverton <nick@leverton.org>  Fri, 29 Apr 2011 16:13:07 +0100
+
+nullmailer (1:1.04-1.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Do not ignore errors from make in debian/rules
+  * Add "${misc:Depends}" to dependencies to properly cope
+    with debhelper-triggerred dependencies
+  * Versioned build dependency on debhelper to fit with
+    debhelper compatibility level
+  * Drop linda overrides
+  * Fix pending l10n issues. Debconf translations:
+    - Vietnamese (Clytie Siddall).  Closes: #513583
+
+ -- Christian Perrier <bubulle@debian.org>  Sat, 12 Dec 2009 20:17:34 +0100
+
+nullmailer (1:1.04-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix pending l10n issues. Debconf translations:
+    - Swedish. Closes: #491954
+    - Italian. Closes: #491954
+    - Russian. Closes: #502887
+
+ -- Christian Perrier <bubulle@debian.org>  Tue, 21 Oct 2008 06:16:14 +0200
+
+nullmailer (1:1.04-1) unstable; urgency=low
+
+  * New upstream release. (closes: #458038)
+  * Update IPv6 patch from Alexander Clouter. (closes: #434228)
+  * Add initial Dutch debconf translation from Bart Cornelis.
+    (closes: #418903)
+  * Update Portuguese debconf translation from Pedro Ribeiro.
+    (closes: #430993)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sun, 06 Jan 2008 15:28:52 +0100
+
+nullmailer (1:1.03-5) unstable; urgency=low
+
+  * Update German debconf translation from Sven Mueller.
+    (closes: #412855, #413153)
+  * Add initial Spanish debconf translation from Steve Lord Flaubert.
+    (closes: #415184)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sun, 18 Mar 2007 12:12:53 +0100
+
+nullmailer (1:1.03-4) unstable; urgency=low
+
+  * Update Czech debconf translation from Miroslav Kure.
+    (closes: #389182)
+  * Update Japanese debconf translation from Hideki Yamane.
+    (closes: #393941)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sun, 28 Jan 2007 12:42:58 +0100
+
+nullmailer (1:1.03-3) unstable; urgency=low
+
+  * Acknowledge NMU 1:1.03-2.1, thanks to Margarita Manterola.
+    (closes: #383859)
+  * Add LSB formatted dependency info in init script, thanks to Petter
+    Reinholdtsen. (closes: #386635)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sun, 17 Sep 2006 12:21:35 +0200
+
+nullmailer (1:1.03-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload to fix problem handling debconf variables.
+  * Modify debian/config to take into account any number of hosts specified in
+    the config file. Thanks to Maximiliano Curia for the patch.
+    (closes: #383859)
+  * Add versioned build-dependency on debhelper, so that it agrees with the
+    DH_COMPAT version. 
+
+ -- Margarita Manterola <marga@debian.org>  Sat, 26 Aug 2006 17:29:43 -0300
+
+nullmailer (1:1.03-2) unstable; urgency=low
+
+  * Update French debconf translation from Florentin Duneau.
+    (closes: #375556)
+  * Update Standards-Version to 3.7.2.1, no changes required.
+
+ -- Norbert Tretkowski <nobse@debian.org>  Fri, 18 Aug 2006 17:01:03 +0200
+
+nullmailer (1:1.03-1) unstable; urgency=low
+
+  * New upstream release.
+    + Fix qmqp transport. (closes: #332482)
+    + Now tries getpwnam() before "unknown" for sender address.
+      (closes: #218326)
+  * Update french debconf translation from Florentin Duneau.
+    (closes: #366750)
+  * Update 03_syslog.diff for new release.
+  * Remove patches added in 1:1.02-7, merged upstream.
+
+ -- Norbert Tretkowski <nobse@debian.org>  Thu, 17 Aug 2006 23:49:51 +0200
+
+nullmailer (1:1.02-8) unstable; urgency=low
+
+  * Fixed links to manpages. (closes: #373104)
+  * Readded autoconf and automake1.9 build-depencencies to fix IPv6 support
+    again. (closes: #369743)
+  * Added patch from Marc Herbert to fix autoconf/automake madness.
+    (closes: #373267)
+  * Removed ucf handling from postinst. (closes: #369568)
+  * Updated french debconf translation from Philippe Batailler.
+    (closes: #369697)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Thu, 15 Jun 2006 23:32:48 +0200
+
+nullmailer (1:1.02-7) unstable; urgency=low
+
+  * Updated french debconf translation from Philippe Batailler.
+    (closes: #366750)
+  * Added a new patch to use EHLO instead HELO when using SMTP AUTH.
+    (closes: #366685)
+  * Removed outdated informations about backports from README.Debian.
+
+ -- Norbert Tretkowski <nobse@debian.org>  Fri, 26 May 2006 14:07:24 +0200
+
+nullmailer (1:1.02-6) unstable; urgency=low
+
+  * Launch debconf-updatepo in debian/rules. (closes: #366686)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sat, 13 May 2006 23:05:32 -0500
+
+nullmailer (1:1.02-5) unstable; urgency=medium
+
+  * Preserve administrator settings when debconf is used. (closes: #366296)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Wed, 10 May 2006 18:25:24 -0500
+
+nullmailer (1:1.02-4) unstable; urgency=low
+
+  * Updated Standards-Version to 3.7.2.0, no changes required.
+  * Really added support for smtp auth via debconf (got lost in -3).
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sun,  7 May 2006 16:03:11 -0500
+
+nullmailer (1:1.02-3) unstable; urgency=low
+
+  * Complete rewrite of build-sytem:
+    + Switched to debhelper and dpatch.
+    + Added support for smtp auth via debconf. (closes: #349485)
+    + Removed ucf support. (closes: #311621, #333313)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sat, 15 Apr 2006 17:13:20 +0200
+
+nullmailer (1:1.02-2) unstable; urgency=low
+
+  * Fixed 05syslog.diff so successfully sent mails are no longer logged as
+    failures. (closes: #351021)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Thu, 30 Mar 2006 18:03:25 +0200
+
+nullmailer (1:1.02-1) unstable; urgency=low
+
+  * New upstream release. (closes: #348798)
+  * Removed backported patches (added in 1:1.00-2) which are part of this new
+    release.
+  * Really enabled IPv6 support. (closes: #340063)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Fri, 20 Jan 2006 14:52:09 +0100
+
+nullmailer (1:1.00-3) unstable; urgency=low
+
+  * New patch to support IPv6 from Alexander Clouter. (closes: #336348)
+  * Added vietnamese debconf translation from Clytie Siddall. (closes: #316324)
+  * Added japanese debconf translation from Hideki Yamane. (closes: #237178)
+  * Added czech debconf translation from Miroslav Kure. (closes: #262665)
+  * Added swedish debconf translation from Daniel Nylander. (closes: #333751)
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sat, 29 Oct 2005 18:35:51 +0200
+
+nullmailer (1:1.00-2) unstable; urgency=low
+
+  * New patch to enable SMTP AUTH, see documentation.
+  * New patch to make nullmailer compile with gcc 4.0.x. (closes: #315601)
+  * Switched the init script to lsb-base.
+  * Updated Standards-Version to 3.6.2.
+
+ -- Norbert Tretkowski <nobse@debian.org>  Fri, 30 Sep 2005 11:38:51 +0200
+
+nullmailer (1:1.00-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sat, 18 Jun 2005 23:16:25 +0200
+
+nullmailer (1.00RC7-22) unstable; urgency=high
+
+  * The "let's make aba happy" release.
+  * Damn nullmailer! You aren't compatible with the LSB.
+  * Conflict with lsb and document the LSB incompatibility in the packages
+    description.
+  * This change is related to #271662, which will stay open after this package
+    is uploaded. When the package hits the archive, the severity of this bug
+    will be downgraded to wishlist.
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sun, 26 Sep 2004 11:26:35 +0200
+
+nullmailer (1.00RC7-21) unstable; urgency=low
+
+  * Removed backport information from package description (closes: #215938).
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sat,  8 Nov 2003 16:36:01 +0100
+
+nullmailer (1.00RC7-20) unstable; urgency=low
+
+  * D'OH, forgot to change maintainer field in debian/control.
+
+ -- Norbert Tretkowski <nobse@debian.org>  Fri, 26 Sep 2003 20:56:49 +0200
+
+nullmailer (1.00RC7-19) unstable; urgency=low
+
+  * New Maintainer (closes: #210405).
+
+ -- Norbert Tretkowski <nobse@debian.org>  Sat, 20 Sep 2003 19:51:11 +0200
+
+nullmailer (1.00RC7-18) unstable; urgency=low
+
+  * Fixed init script policy compliance, closes: #206928.
+  * Updated standards version.
+
+ -- Martin A. Godisch <godisch@debian.org>  Sun, 24 Aug 2003 23:10:24 +0200
+
+nullmailer (1.00RC7-17) unstable; urgency=low
+
+  * Simplified ucf handling, see bug #199233, adjusted ucf dependency.
+  * Simplified configuration, added debconf dependency.
+  * Provided default values for /etc/mailname and /etc/nullmailer/remotes.
+  * Fixed removal of /etc/nullmailer on --purge.
+  * Converted debian/changelog to UTF-8.
+  * Updated standards version.
+  * Thanks to Martin Pitt for co-maintaining.
+
+ -- Martin A. Godisch <godisch@debian.org>  Mon, 21 Jul 2003 15:32:30 +0200
+
+nullmailer (1.00RC7-16) unstable; urgency=low
+
+  * Fixed config failure on fresh installations, closes: #199171.
+  * Improved ucf transition, closes: #199163. Added UCF_FORCE_CONFFNEW
+    when the new file is identical to the current one.
+  * Removed defaultdomain from debconf handling because ucf needs an empty
+    new defaultdomain file when the new value is empty. Since nullmailer
+    interprets an empty file not the same way as a missing file I see no
+    sensible way to handle defaultdomain using debconf and ucf. nullmailer
+    doesn't depend on defaultdomain, it will fall back to /etc/mailname.
+  * Fixed handling of empty adminaddr.
+
+ -- Martin A. Godisch <godisch@debian.org>  Sun, 29 Jun 2003 09:14:50 +0200
+
+nullmailer (1.00RC7-15) unstable; urgency=low
+
+  * Added ucf support, closes: #198583.
+
+ -- Martin A. Godisch <godisch@debian.org>  Fri, 27 Jun 2003 07:56:05 +0200
+
+nullmailer (1.00RC7-14) unstable; urgency=low
+
+  * Added warning note about incompatible init scripts, closes: #197742.
+  * Updated French debconf translation, closes: #197940, thanks to
+    Philippe Batailler.
+  * Replaced /usr/bin/newaliases with a symbolic link to /bin/true.
+  * Added patch to build-dependencies.
+
+ -- Martin A. Godisch <godisch@debian.org>  Wed, 18 Jun 2003 18:50:20 +0200
+
+nullmailer (1.00RC7-13) unstable; urgency=low
+
+  * Updated and fixed deb'configuration, closes: #195167. The first question
+    is whether to configure at all, removed comparison of files and database
+    in the config script. debconf is now optional, adjusted dependencies and
+    Linitan overrides.
+  * Updated standards version.
+
+ -- Martin A. Godisch <godisch@debian.org>  Thu, 29 May 2003 08:56:15 +0200
+
+nullmailer (1.00RC7-12) unstable; urgency=low
+
+  * Improved syslog patch, closes: #191451. Added command line options
+    --daemon and --syslog for protocol.cc and send.cc, see nullmailer-send(8).
+    Default behavior is not to make use of these which is how upstream
+    works. However, Debian's (default) init script makes use of these.
+  * Fixed reverse patching.
+
+ -- Martin A. Godisch <godisch@debian.org>  Thu, 01 May 2003 09:18:55 +0200
+
+nullmailer (1.00RC7-11) unstable; urgency=low
+
+  * Fixed SMTP violation, closes: #188391.
+  * Moved patching into debian/rules.
+  * Updated logcheck configuration.
+
+ -- Martin A. Godisch <godisch@debian.org>  Thu, 10 Apr 2003 06:57:45 +0200
+
+nullmailer (1.00RC7-10) unstable; urgency=low
+
+  * Fixed protocols/protocols.cc (Debian specific), closes: #188376.
+  * Updated debconf dependency and package description.
+
+ -- Martin A. Godisch <godisch@debian.org>  Wed, 09 Apr 2003 21:52:45 +0200
+
+nullmailer (1.00RC7-9) unstable; urgency=low
+
+  * Made init script LSB compliant, closes: #187248.
+  * Added portuguese debconf translation, closes: #185679.
+    Thanks to André Luís Lopes.
+  * Added debconf backup capability.
+  * Updated package description.
+  * Updated README.Debian.
+
+ -- Martin A. Godisch <godisch@debian.org>  Wed, 02 Apr 2003 23:04:50 +0200
+
+nullmailer (1.00RC7-8) unstable; urgency=low
+
+  * Added german debconf translation, closes: #184898.
+
+ -- Martin A. Godisch <godisch@debian.org>  Sun, 16 Mar 2003 07:52:05 +0100
+
+nullmailer (1.00RC7-7) unstable; urgency=low
+
+  * Added french debconf translation, closes: #184313.
+    Thanks to Philippe Batailler <philippe.batailler@free.fr>.
+  * Updated standards version.
+
+ -- Martin A. Godisch <godisch@debian.org>  Tue, 11 Mar 2003 16:30:51 +0100
+
+nullmailer (1.00RC7-6) unstable; urgency=low
+
+  * Transition to po-debconf, updated build-dependencies.
+  * Updated debconf questions, closes: #183587.
+  * Updated maintainer scripts, added configuration for adminaddr.
+
+ -- Martin A. Godisch <godisch@debian.org>  Thu, 06 Mar 2003 11:10:20 +0100
+
+nullmailer (1.00RC7-5) unstable; urgency=low
+
+  * Updated debian/patches/a.diff to upstream version, fixed
+    some line numbers in other patches.
+  * Removed build-dependency on debhelper, debian/ cleanup.
+  * Let debian/prerm remove /var/spool/nullmailer/trigger.
+  * Updated debian/README.Debian and maintainer email address.
+
+ -- Martin A. Godisch <godisch@debian.org>  Sat, 22 Feb 2003 12:20:12 +0100
+
+nullmailer (1.00RC7-4) unstable; urgency=low
+
+  * Fixed blocking when syslog is unavailable.
+  * Fixed nullmailer-inject.1, closes #180956.
+  * Improved README.Debian, thanks to Osamu Aoki <osamu@debian.org>.
+  * Removed HOWTO from debian/docs.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Fri, 14 Feb 2003 10:10:12 +0100
+
+nullmailer (1.00RC7-3) unstable; urgency=low
+
+  * Fixed priority and conflicts, added provides, recommends.
+    nullmailer shares files with other MTA's, hence the conflict
+    and therefore priority extra.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Mon, 03 Feb 2003 17:08:38 +0100
+
+nullmailer (1.00RC7-2) unstable; urgency=low
+
+  * Added /usr/bin/newaliases, closes: #177683.
+  * Fixed debian/rules, updated debian/control.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Mon, 27 Jan 2003 10:17:14 +0100
+
+nullmailer (1.00RC7-1) unstable; urgency=low
+
+  * New upstream release.
+  * Dropped some patches wich are now in upstream.
+  * Separated applied patches into debian/patches.
+  * Fixed g++ 3.2 build.
+  * Fixed noopt in debian/rules.
+  * Fixed Linda overrides.
+  * Updated debian/copyright.
+  * Updated README.Debian.
+  * Moved debian/logcheck/* to debian/logcheck.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Sat, 11 Jan 2003 21:46:10 +0100
+
+nullmailer (1.00RC5-23) unstable; urgency=low
+
+  * Let sendmail exit with failure when -bs is requested, closes: #170079.
+  * Updated Debian standards version.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Sat, 23 Nov 2002 16:15:00 +0100
+
+nullmailer (1.00RC5-22) unstable; urgency=low
+
+  * Fixed nullmailer-inject domain qualification, closes: #128269.
+    Thanks to Peter Muir <iyhi@yahoo.com> for providing the patch.
+  * Fixed init script, prevents trigger recreation when nullmailer
+    is already running.
+  * Fixed depends, added debconf version (>= 1.2.9) and debhelper
+    version (>= 4.1.8), assures that dpkg-reconfigure calls prerm
+    when nullmailer is already running.
+  * Fixed German templates file.
+  * Added Linda overrides file.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Wed, 13 Nov 2002 16:38:02 +0100
+
+nullmailer (1.00RC5-21) unstable; urgency=low
+
+  * Fixed missing "|| true" in debian/config.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Thu, 31 Oct 2002 19:37:10 +0100
+
+nullmailer (1.00RC5-20) unstable; urgency=low
+
+  * Fixed handling of /etc/nullmailer/remotes in debian/config
+    and debian/postinst, closes: #167191.
+  * Fixed /etc/init.d/nullmailer force-reload.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Thu, 31 Oct 2002 11:24:44 +0100
+
+nullmailer (1.00RC5-19) unstable; urgency=low
+
+  * Added native syslog support for nullmailer-send, closes: #166797.
+  * Fixed backgrounding for nullmailer-send, closes: #166801.
+  * Changed umask in queue.cc, see #164951.
+  * Added logcheck configuration.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Tue, 29 Oct 2002 10:48:35 +0100
+
+nullmailer (1.00RC5-18) unstable; urgency=low
+
+  * Added /etc/mailname recreation according to policy, templates
+    were taken from the slrn package, closes: #163001.
+  * Added overrides file for Lintian.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Tue, 01 Oct 2002 23:16:56 +0200
+
+nullmailer (1.00RC5-17) unstable; urgency=medium
+
+  * Security fix, prevents possible denial of service attack,
+    closes: #152786, #160127.
+  * Replaced getdomainname() call with /etc/mailname lookup,
+    closes: #120660, #157259, #158412.
+  * Changed handling of empty defaulthost file, closes: #128273.
+  * Updated debian directory, closes: #149764, #161464.
+  * Enabled logging, added trigger recreation on startup.
+  * Fixed spooldir permissions and manual pages.
+  * New-maintainer upload, closes: #159894, #157258.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Mon, 23 Sep 2002 18:03:14 +0200
+
+nullmailer (1.00RC5-16.1woody2) stable-security; urgency=high
+
+  * Security fix, prevents possible denial of service attack, closes: #160127.
+  * Security fix, corrected spooldir permissions.
+  * Set new maintainer in debian/control.
+
+ -- Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>  Wed, 25 Sep 2002 07:40:05 +0200
+
+nullmailer (1.00RC5-16) unstable; urgency=low
+
+  * postrm now recognizes 'remove' argument. Closes: #139350
+
+ -- Adam Byrtek <alpha@debian.org>  Thu, 21 Mar 2002 18:06:05 +0100
+
+nullmailer (1.00RC5-15) unstable; urgency=low
+
+  * Added /usr/lib/sendmail symlink to conform with FHS4.4
+    Closes: #132218
+
+ -- Adam Byrtek <alpha@debian.org>  Thu,  7 Mar 2002 16:24:48 +0100
+
+nullmailer (1.00RC5-14) unstable; urgency=low
+
+  * Applied backed up patch to build on ia64, Closes: #115243
+    I see no way it can break sendmail wrapper, but in case of
+    problems feel free to post a bugreport.
+
+ -- Adam Byrtek <alpha@debian.org>  Mon,  4 Mar 2002 23:07:59 +0100
+
+nullmailer (1.00RC5-13) unstable; urgency=low
+
+  * New maintainer, I've adopted the package. Closes: #132865
+    No other changes this time...
+
+ -- Adam Byrtek <alpha@debian.org>  Mon, 25 Feb 2002 16:47:47 +0100
+
+nullmailer (1.00RC5-12) unstable; urgency=low
+
+  * fixed bug in sendmail.cc that causes nullmailer to randomly mess
+    up the sender address (Closes: Bug#112458)
+  * Backed out ia64/GCC3 patch included in last upload because it broke
+    the "-f" flag to nullmailer's sendmail wrapper. (Closes: Bug#110706)
+
+ -- Adam D. McKenna <adam@debian.org>  Mon,  3 Sep 2001 03:23:49 -0700
+
+nullmailer (1.00RC5-11) unstable; urgency=low
+
+  * Fixed debian/rules configure to fix build with GCC 3.0
+    (Closes: Bug#104903)
+  * Changed local state dir to /var/spool/nullmailer
+  * Made nullmailer files owned by user mail instead of nobody
+    (Closes: Bug#103545)
+
+ -- Adam D. McKenna <adam@debian.org>  Wed, 15 Aug 2001 00:45:58 -0700
+
+nullmailer (1.00RC5-10) unstable; urgency=low
+
+  * Added patch from Randolph Chung to build on ia-64 
+    architecture (Closes: Bug#106250)
+
+ -- Adam D. McKenna <adam@debian.org>  Tue, 14 Aug 2001 18:25:16 -0700
+
+nullmailer (1.00RC5-9) unstable; urgency=low
+
+  * Added patch for smtp.cc from upstream (Closes: Bug#100642)
+
+ -- Adam D. McKenna <adam@debian.org>  Thu, 21 Jun 2001 14:17:33 -0700
+
+nullmailer (1.00RC5-8) unstable; urgency=low
+
+  * Removed messages in config that could be confusing if the package has
+    been preconfigured (Closes: Bug#94980)
+  * Added German text to templates file. (Closes: Bug#95356)
+
+ -- Adam D. McKenna <adam@debian.org>  Tue, 29 May 2001 13:26:10 -0700
+
+nullmailer (1.00RC5-7) unstable; urgency=low
+
+  * Fixed makefield.cc to include time.h (Closes: Bug#87701)
+
+ -- Adam D. McKenna <adam@debian.org>  Wed, 25 Apr 2001 17:00:15 -0700
+
+nullmailer (1.00RC5-6) unstable; urgency=low
+
+  * Should be the final fix for postinst. (crosses fingers)
+
+ -- Adam D. McKenna <adam@debian.org>  Wed, 17 Jan 2001 03:42:20 -0500
+
+nullmailer (1.00RC5-5) unstable; urgency=low
+
+  * More futzing around with postinst.  Now we are asking for the
+    e-mail domain name instead of FQDN, since we should be able to
+    get the hostname from /etc/hostname.
+
+ -- Adam D. McKenna <adam@debian.org>  Wed, 17 Jan 2001 02:02:40 -0500
+
+nullmailer (1.00RC5-4) unstable; urgency=low
+
+  * Added /etc/nullmailer/defaultdomain
+
+ -- Adam D. McKenna <adam@debian.org>  Wed, 17 Jan 2001 01:24:33 -0500
+
+nullmailer (1.00RC5-3) unstable; urgency=low
+
+  * Fixed postrm to remove /etc/nullmailer and /var/lib/nullmailer
+    when package is purged.
+
+ -- Adam D. McKenna <adam@debian.org>  Wed, 17 Jan 2001 00:48:20 -0500
+
+nullmailer (1.00RC5-2) unstable; urgency=low
+
+  * Fixed some minor policy bugs.
+
+ -- Adam D. McKenna <adam@debian.org>  Tue, 16 Jan 2001 00:50:40 -0500
+
+nullmailer (1.00RC5-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Adam D. McKenna <adam@debian.org>  Wed,  3 Jan 2001 19:20:39 -0500
+
+nullmailer (1.00RC4-10) unstable; urgency=low
+
+  * Added trigger file creation to postinst in order to stop lintian from
+    complaining.  Also added mailq to dh_undocumented.
+
+ -- Adam D. McKenna <adam@debian.org>  Thu, 14 Dec 2000 18:20:23 -0500
+
+nullmailer (1.00RC4-9) unstable; urgency=low
+
+  * Added postrm script to un-suidregister nullmailer-queue.  Thanks
+    to decklin@red-bean.com for reporting. (Closes: Bug#78331)
+
+ -- Adam D. McKenna <adam@debian.org>  Wed, 29 Nov 2000 14:15:14 -0500
+
+nullmailer (1.00RC4-8) unstable; urgency=low
+
+  * fixed suidregister problem in postinst
+
+ -- Adam D. McKenna <adam@debian.org>  Mon, 23 Oct 2000 17:46:22 -0400
+
+nullmailer (1.00RC4-7) unstable; urgency=low
+
+  * fixed problem with the source tarball.
+
+ -- Adam D. McKenna <adam@debian.org>  Mon, 23 Oct 2000 16:16:27 -0400
+
+nullmailer (1.00RC4-6) unstable; urgency=low
+
+  * fixed postinst to use suidregister
+
+ -- Adam D. McKenna <adam@debian.org>  Fri,  6 Oct 2000 16:50:46 -0400
+
+nullmailer (1.00RC4-5) unstable; urgency=low
+
+  * fixed build script to make nullmailer-queue setuid nobody.
+
+ -- Adam D. McKenna <adam@debian.org>  Fri,  6 Oct 2000 16:34:28 -0400
+
+nullmailer (1.00RC4-4) unstable; urgency=low
+
+  * for some reason chown nobody /var/lib/nullmailer/* wasn't working
+    on the trigger file.  Added an explicit chown for that file into 
+    postinst.
+
+ -- Adam D. McKenna <adam@debian.org>  Thu,  7 Sep 2000 15:34:46 -0400
+
+nullmailer (1.00RC4-3) unstable; urgency=low
+
+  * fixed problem in init.d script where nullmailer wasn't being stopped 
+    correctly.
+
+ -- Adam D. McKenna <adam@debian.org>  Thu,  7 Sep 2000 15:23:34 -0400
+
+nullmailer (1.00RC4-2) unstable; urgency=low
+
+  * fixed typo in copyright.
+
+ -- Adam D. McKenna <adam@debian.org>  Thu,  7 Sep 2000 15:11:53 -0400
+
+nullmailer (1.00RC4-1) unstable; urgency=low
+
+  * new upstream release
+
+ -- Adam D. McKenna <adam@debian.org>  Thu,  7 Sep 2000 15:07:58 -0400
+
+nullmailer (1.00RC2-1) unstable; urgency=low
+
+  * new upstream release.
+
+ -- Adam D. McKenna <adam@debian.org>  Thu,  6 Jul 2000 17:56:51 -0400
+
+nullmailer (1.00RC1-2) unstable; urgency=low
+
+  * Changed some debian-specific stuff.
+  * Fixed postinst.
+
+ -- Adam D. McKenna <adam@debian.org>  Wed,  5 Jul 2000 18:48:54 -0400
+
+nullmailer (1.00RC1-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Adam D. McKenna <adam@debian.org>  Wed, 21 Jun 2000 19:34:27 -0400
+

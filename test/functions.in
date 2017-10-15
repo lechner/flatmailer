@@ -1,0 +1,133 @@
+#!/bin/bash
+srcdir=@SRCDIR@
+builddir=@BUILDDIR@
+tmpdir=$builddir/test-tmp
+export NULLMAILER_TEST_PREFIX=$tmpdir
+SYSCONFDIR=$tmpdir/conf
+QUEUEDIR=$tmpdir/queue
+rm -rf $tmpdir
+mkdir -p \
+    $tmpdir/protocols \
+    $QUEUEDIR/{failed,queue,tmp} \
+    $SYSCONFDIR
+mknod $QUEUEDIR/trigger p
+ln -s $builddir/src $tmpdir/sbin
+ln -s $builddir/src $tmpdir/bin
+ln -s $builddir/protocols/* $tmpdir/protocols/
+
+exit_cleanup() {
+    svc -dx $tmpdir/service/* > /dev/null 2>&1 || :
+    # Remove all temporary files on success
+    if [ $? -eq 0 ]
+    then
+        wait
+        rm -rf $tmpdir
+    fi
+}
+trap exit_cleanup EXIT
+
+fail() {
+    echo "$*"
+    exit 1
+}
+start() {
+    local name=$1
+    shift
+    mkdir -p $tmpdir/service/$name
+    {
+	echo '#!/bin/sh'
+	echo exec "$@"
+    } >$tmpdir/service/$name/run
+    chmod +x $tmpdir/service/$name/run
+    supervise $tmpdir/service/$name </dev/null >$tmpdir/service/${name}-log 2>&1 &
+}
+stop() {
+    for name in $*; do
+	svc -dx $tmpdir/service/$name >/dev/null 2>&1
+    done
+}
+
+#not() { if "$@"; then return 1; else return 0; fi }
+not() { ! safe "$@"; }
+safe() { set +e; "$@"; result=$?; set -e; return $result; }
+error() {
+  local code=$1
+  shift
+  if "$@"; then
+    echo "Result was 0, should be $code."
+    return 1
+  else
+    result=$?
+    if test $result -eq $code; then
+      return 0
+    else
+      echo "Result was $result, should be $code."
+      return 1
+    fi
+  fi
+}
+
+inject() { ../src/nullmailer-inject "$@"; }
+mailq() { ../src/mailq "$@"; }
+smtpd() { ../src/nullmailer-smtpd "$@"; }
+queue() {
+    (
+        echo "$1"
+        shift
+        while [ x"$1" != x ]
+        do
+            echo "$1"
+            shift
+        done
+        echo
+        echo "Subject: test"
+    ) | ../src/nullmailer-queue > $tmpdir/queue-out 2> $tmpdir/queue-err
+}
+injectlines() {
+  for line in "$@"; do
+    echo "$line"
+  done | inject -n
+  return $?
+}
+injectfield() {
+  local field=$1
+  shift
+  injectlines "$@" | grep -i "^$field:" | cut -d: -f2-
+}
+protocol() {
+    local p=$1
+    local opts=""
+    shift
+    while [ $# -gt 0 -a x"$1" != x-- ]
+    do
+        opts="$opts $1"
+        shift
+    done
+    shift || :
+    for line in "$@"
+    do
+        echo "$line"
+    done > $tmpdir/protocol-in
+    ../protocols/$p $opts < $tmpdir/protocol-in > $tmpdir/protocol-log 2>&1
+}
+
+# Split an input on blank lines
+splitblank() {
+  local fn=$1
+  local n=1
+  while read line
+  do
+    if [ x"$line" = x ]
+    then
+      n=$(( $n + 1 ))
+    else
+      echo "$line" >> ${fn}.$n
+    fi
+  done
+}
+
+export PATH=/bin:/usr/bin:/usr/local/bin
+rm -f $SYSCONFDIR/*
+echo f.q.d.n >$SYSCONFDIR/../mailname
+echo q.d.n >$SYSCONFDIR/defaultdomain
+set -e

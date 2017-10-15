@@ -1,0 +1,121 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nullmailer-1.00rc7-8\n"
+"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"POT-Creation-Date: 2012-03-01 09:23+0000\n"
+"PO-Revision-Date: 2003-03-20 21:46-0300\n"
+"Last-Translator: André Luís Lopes <andrelop@ig.com.br>\n"
+"Language-Team: Debian-BR Project <debian-l10n-portuguese@lists.debian.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+#, fuzzy
+msgid "Mailname of your system:"
+msgstr "Por favor informe o \"mail name\" de seu sistema :"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"This is the fully-qualified host name of the computer running nullmailer. It "
+"defaults to the literal name 'me'."
+msgstr ""
+"O \"mail name\" é o nome totalmente qualificado do host (computador) onde o "
+"nullmailer será executado. O padrão é o nome literal 'me'."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Smarthosts:"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid ""
+"This is a colon-separated list of remote servers to which to send each "
+"message. Each entry contains a remote host name or address followed by an "
+"optional protocol string 'host protocol'. The protocol name defaults to "
+"smtp, and may be followed by command-line arguments for that module."
+msgstr ""
+"O que você deve especificar é uma lista separada por dois pontos (\":\") de "
+"endereços de servidore remotos para os quais enviar cada mensagem. Cada "
+"entrada contém um nome ou endereço de host remoto seguido por uma string de "
+"protocolo opcional 'host protocol'. O nome do protocolo usado como padrão é "
+"smtp e pode ser seguido por argumentos de linha de comando para este módulo."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Examples:"
+msgstr "Exemplos :"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+#, fuzzy
+msgid "Where to send local emails (optional):"
+msgstr ""
+"Para quais endereços o nullmailer deve enviar mensagens locais (opcional) ?"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid ""
+"If not empty, all recipients to users at either 'localhost' (the literal "
+"string) or the canonical host name (from /etc/mailname) are remapped to this "
+"address. This is provided to allow local daemons to be able to send email to "
+"'somebody@localhost' and have it go somewhere sensible instead of being "
+"bounced by your relay host."
+msgstr ""
+"Caso este campo não seja deixado em branco, todos os destinatários para "
+"usuários no 'localhost' (a string literal) ou para o nome canônico do host "
+"(obtido de /etc/mailname) serão remapeados para esse endereço. Isto existe "
+"para permitir que daemons locais sejam capazes de enviar mensagens para "
+"'alguem@localhost' e poder ir para algum local sensível ao invés ser "
+"devolvido por seu relay host."
+
+#, fuzzy
+#~ msgid ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar\n"
+#~ "  192.168.1.254 qmqp\n"
+#~ "  [fe80::5054:ff:fef4:ef81] smtp"
+#~ msgstr ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost:mx.domain:192.168.1.1"
+
+#~ msgid "Please specify your smarthosts:"
+#~ msgstr "Por favor especifique seus smarthosts :"
+
+#~ msgid "Please enter your email domain (optional):"
+#~ msgstr "Por favor informe seu domínio de e-mail (opcional) :"
+
+#~ msgid ""
+#~ "The email domain is appended to any host name that does not contain a "
+#~ "period. It defaults to the value of the /etc/mailname system file, if it "
+#~ "exists, otherwise the literal name 'defaultdomain'."
+#~ msgstr ""
+#~ "O domínio de e-mail é adicionado ao qualquer nome de máquina (hostname) "
+#~ "que não contenha um ponto. O padrão é usar o valor do arquivo de sistema /"
+#~ "etc/mailname, caso existe, ou então o nome literal 'defaultdomain'."

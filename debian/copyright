@@ -1,0 +1,35 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: nullmailer
+Upstream-Contact: Bruce Guenter <bruce@untroubled.org>
+Source: http://untroubled.org/nullmailer/
+
+Files: *
+Copyright: 1999-2014 Bruce Guenter <bruce@untroubled.org>
+License: GPL-2+
+
+Files: debian/*
+Copyright: 2000-2001 Adam D. McKenna <adam@flounder.net>
+           2002      Adam Byrtek <alpha@debian.org>
+           2002-2003 Martin A. Godisch <godisch@tcs.inf.tu-dresden.de>
+	   2003-2008 Norbert Tretkowski <nobse@debian.org>
+	   2008-2009 Christian Perrier <bubulle@debian.org>
+           2011-     Nick Leverton <nick@leverton.org>
+License: GPL-2+
+
+License: GPL-2+
+  This program is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the
+  Free Software Foundation; either version 2 of the License, or (at your
+  option) any later version.
+  .
+  This program is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  General Public License for more details.
+  .
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+  .
+  On Debian GNU/Linux systems, the complete text of the GNU General Public
+  License can be found in '/usr/share/common-licenses/GPL-2'.

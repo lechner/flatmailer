@@ -1,0 +1,9 @@
+bin/true usr/bin/newaliases
+usr/sbin/sendmail usr/lib/sendmail
+usr/share/man/man1/nullmailer-inject.1.gz usr/share/man/man5/defaultdomain.5.gz
+usr/share/man/man1/nullmailer-inject.1.gz usr/share/man/man5/defaulthost.5.gz
+usr/share/man/man1/nullmailer-inject.1.gz usr/share/man/man5/idhost.5.gz
+usr/share/man/man7/nullmailer.7.gz usr/share/man/man1/mailq.1.gz
+usr/share/man/man8/nullmailer-queue.8.gz usr/share/man/man5/adminaddr.5.gz
+usr/share/man/man8/nullmailer-send.8.gz usr/share/man/man5/pausetime.5.gz
+usr/share/man/man8/nullmailer-send.8.gz usr/share/man/man5/remotes.5.gz

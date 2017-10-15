@@ -1,0 +1,16 @@
+[Unit]
+Description=Nullmailer relay-only MTA
+After=network.target
+RequiresMountsFor=/var/spool/nullmailer
+ConditionPathExists=/var/spool/nullmailer/queue
+Documentation=man:nullmailer(7)
+
+[Service]
+WorkingDirectory=/var/spool/nullmailer
+ExecStart=/usr/sbin/nullmailer-send
+User=mail
+Group=mail
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

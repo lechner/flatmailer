@@ -1,0 +1,24 @@
+Source: nullmailer
+Section: mail
+Priority: extra
+Maintainer: David Bremner <bremner@debian.org>
+Uploaders: Felix Lechner <felix.lechner@lease-up.com>
+Build-Depends: daemontools,
+               debhelper (>= 10.8),
+               libgnutls28-dev | libgnutls-dev,
+               po-debconf,
+               ucspi-tcp-ipv6
+Standards-Version: 4.1.0
+Homepage: http://untroubled.org/nullmailer/
+
+Package: nullmailer
+Architecture: any
+Depends: lsb-base, ${misc:Depends}, ${shlibs:Depends}
+Recommends: rsyslog | system-log-daemon
+Conflicts: mail-transport-agent
+Provides: mail-transport-agent
+Replaces: mail-transport-agent
+Description: simple relay-only mail transport agent
+ Nullmailer is a replacement MTA for hosts, which relay to a fixed set of
+ smart relays. It is designed to be simple to configure and especially
+ useful on slave machines and in chroots.

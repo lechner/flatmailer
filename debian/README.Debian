@@ -1,0 +1,48 @@
++---------------------------+
+| logging and backgrounding |
++---------------------------+
+
+On request of its users the Debian version of nullmailer-send behaves
+differently from the corresponding upstream release. It forks into the
+background on startup and it sends status output to the system log daemon
+instead to standard error. If you have no running system log daemon, output
+will be sent to /dev/console. As of 1.00RC7-12 this behavior is optional
+and needs to be requested using nullmailer-send's --daemon and --syslog
+options (Debian only), see nullmailer-send(8).
+
+Note that the Debian version of nullmailer executes under the system account
+mail with group root. It uses /etc/mailname instead of the /etc/nullmailer/me
+control file, in compliance with the Debian Policy Manual.
+
+
++---------------------------+
+| /etc/aliases              |
++---------------------------+
+
+nullmailer doesn't support /etc/aliases, the newaliases command provides a
+dummy script for policy compliance only. A catch-all alias for local users may
+be achieved using the adminaddr(5) control file.
+
+
++---------------------------+
+| nullmailer and Pine       |
++---------------------------+
+
+You cannot use Pine with nullmailer, but you can configure Pine to connect to
+your smarthost instead. To do so set the configuration option 'smtp-server' in
+your /etc/pine.conf. This will bypass nullmailer's mail queue, i.e. you'll
+need to be online while sending emails using Pine.
+
+
++---------------------------+
+| mailing lists             |
++---------------------------+
+
+There is an upstream mailing list at http://lists.em.ca/?list=nullmailer.
+While talking to upstream, please keep in mind that there are Debian specific
+differences as mentioned above. Please address Debian specific questions to
+debian-user[-<language>]@lists.debian.org or nullmailer@packages.debian.org
+instead.
+
+
+ -- Norbert Tretkowski <nobse@debian.org>  Tue, 16 May 2006 00:45:46 -0500

@@ -1,0 +1,111 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+# Philippe Battiller <philippe.batailler@free.fr>, 2006
+# Florentin Duneau <f.baced@wanadoo.fr>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: nullmailer 1.00RC7-6\n"
+"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"POT-Creation-Date: 2012-03-01 09:23+0000\n"
+"PO-Revision-Date: 2006-06-19 14:58+0200\n"
+"Last-Translator: Florentin Duneau <f.baced@wanadoo.fr>\n"
+"Language-Team: French <debian-l10n-french@lists.debian.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.2\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "Mailname of your system:"
+msgstr "Nom de courrier de votre système :"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"This is the fully-qualified host name of the computer running nullmailer. It "
+"defaults to the literal name 'me'."
+msgstr ""
+"Le nom de courrier du système est le nom complet qualifié de la machine "
+"faisant fonctionner nullmailer. Par défaut, ce sera le nom « me » (« moi », "
+"en anglais)."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Smarthosts:"
+msgstr "Machines relais :"
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid ""
+"This is a colon-separated list of remote servers to which to send each "
+"message. Each entry contains a remote host name or address followed by an "
+"optional protocol string 'host protocol'. The protocol name defaults to "
+"smtp, and may be followed by command-line arguments for that module."
+msgstr ""
+"Vous pouvez indiquer une liste de serveurs distants, séparés par des deux-"
+"points. Chaque entrée contient le nom d'un serveur distant où envoyer le "
+"courrier, ou une adresse suivie d'une chaîne facultative indiquant un "
+"protocole « host protocol ». Par défaut, le protocole est smtp et il peut "
+"être suivi par des arguments de la ligne de commande de ce module."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Examples:"
+msgstr "Exemples :"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid "Where to send local emails (optional):"
+msgstr "Adresse où envoyer les courriers locaux (facultatif) :"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid ""
+"If not empty, all recipients to users at either 'localhost' (the literal "
+"string) or the canonical host name (from /etc/mailname) are remapped to this "
+"address. This is provided to allow local daemons to be able to send email to "
+"'somebody@localhost' and have it go somewhere sensible instead of being "
+"bounced by your relay host."
+msgstr ""
+"Si cette adresse est donnée, tous les destinataires de courriers appartenant "
+"à la machine dont le nom est soit « localhost », ou soit le nom de courrier "
+"(renseigné par /etc/mailname), sont associés à cette adresse. Les démons "
+"locaux peuvent ainsi envoyer des courriers à une adresse sensée, comme "
+"« compte@localhost ». Cela évite que le courrier soit renvoyé par la machine "
+"relais."
+
+#, fuzzy
+#~| msgid ""
+#~| "  smarthost\n"
+#~| "  smarthost smtp --port=10025\n"
+#~| "  smarthost smtp --user=foo --pass=bar"
+#~ msgid ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar\n"
+#~ "  192.168.1.254 qmqp\n"
+#~ "  [fe80::5054:ff:fef4:ef81] smtp"
+#~ msgstr ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=utilisateur --pass=mot_de_passe"

@@ -1,0 +1,24 @@
+#! /bin/sh
+
+set -e
+
+case "$1" in
+       purge)
+
+		rm -f \
+			/etc/nullmailer/defaultdomain \
+			/etc/nullmailer/defaultdomain.dpkg-* \
+			/etc/nullmailer/remotes \
+			/etc/nullmailer/remotes.dpkg-* \
+			/etc/nullmailer/adminaddr \
+			/etc/nullmailer/adminaddr.dpkg-* \
+			/etc/nullmailer/defaulthost \
+			/etc/nullmailer/defaulthost.dpkg-*
+
+        ;;
+
+esac
+
+#DEBHELPER#
+
+exit 0

@@ -1,0 +1,397 @@
+This file lists all the major user-visible changes to nullmailer.
+-------------------------------------------------------------------------------
+Changes in version 2.0
+
+- Added support to nullmailer-send to move permanently failing messages
+  out of the queue, and to generate bounce messages.
+
+- Added support for IPv6.
+
+- Added program to generate bounce/delay messages.
+
+- Added an "allmailfrom" control file to nullmailer-queue, causing all
+  messages to share a hard-coded envelope sender.
+
+- Added logging the message sender/recipient in nullmailer-send.
+
+- Improved handling of system errors when reading config files.
+
+- Secured handling of password options for protocol modules.
+
+- Support standard shell quoting for options in the "remotes" file.
+
+- Added protocol option to set a separate TLS client private key file.
+
+- Added protocol option to bind the source address on connections.
+
+- Fixed nullmailer-inject to report errors to stderr.
+
+- Fixed gnutls cast to pointer from integer of different size warning.
+
+- Fixed nullmailer-inject and -queue to handle the null (empty) sender
+  address. Needed for RFC 3798 (Message Disposition Notification).
+
+- Moved spool directory to /var/spool/nullmailer like other MTAs.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.13
+
+- Fixed growing recipient list when using sendmail -bs to send multiple
+  messages.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.12
+
+- Added a quadratic backoff for resend times.
+
+- Added support for multiple admin addresses in nullmailer-queue.
+
+- SMTP sender now sends a QUIT on success too.
+
+- Fixed sendmail -bs mode to properly strip leading periods.
+
+- Fixed duplicated final header line when message has no body.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.11
+
+- Simplify (and expand) handling of ignored sendmail options.
+
+- Fixed command-line interpretation of short options with values.
+
+- Added support for SSL/TLS client certificates.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.10
+
+- Added support for SMTPS (SMTP over SSL/TLS) and STARTTLS.
+
+- Added support for auto-detection of login method in SMTP protocol.
+
+- Added support for -bp (mailq) and -bs (SMTP) mode in the sendmail wrapper.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.06
+
+- Made nullmailer-queue sync and not just flush queued files to protect
+  against crashes during sensitive operations.
+
+- Fixed handling of whitespace in quoted strings in headers.
+
+- Fixed handling of timeouts when sending.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.05
+
+- Fixed compilation of src/selfpipe.cc on Solaris and other OSes.
+
+- Fixed handling of TM_HAS_ISDST on Solaris.
+
+- Fixed a few address parsing glitches.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.04
+
+- Fixed rewriting mail to @localhost if defaultdomain is set by not
+  appending .defaultdomain to *@localhost.
+
+- Added support for reporting the sender and recipients in mailq.
+
+- Added a send timeout in nullmailer-send, to kill sending messages that
+  stall.
+
+- Added support in nullmailer-inject for $NULLMAILER_QUEUE to name the
+  program which is used to queue messages.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.03
+
+- Fixed the SMTP protocol module to send QUIT on protocol failures.
+
+- Added support for the SMTP AUTH LOGIN method.  Thanks to Sean
+  MacLennan for the suggestion.
+
+- Fixed the SMTP protocol module to send EHLO instead of HELO when doing
+  authentication.  Thanks to Norbert Tretkowski for pointing this out.
+
+- Fixed compile breakage on Solaris due to use of setenv.
+
+- Fixed netstring length bug in QMQP sending module.
+
+- If the sender name cannot be determined from the environment
+  variables, try to pull it from /etc/passwd before using "unknown".
+  Thanks Roderick Schertler.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.02
+
+- Fixed bug in SMTP AUTH that would cause SMTP sending to crash with a
+  segfault when it was used.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.01
+
+- Added support for SMTP AUTH PLAIN.
+  Thanks to Ace Jones for the initial implementation.
+
+- Fixed compile error in lib/list.h
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.00
+
+- Fixed problem with multiple arguments to protocol modules.
+  Thanks Sascha Silbe.
+
+- Fixed extraneous spaces in SMTP sender.
+
+- Made permissions on queued files more strict.
+
+- Handle the "-bs" flag in the sendmail wrapper by dieing when we see it.
+
+- Fixed the address parser handling domain names with trailing periods.
+
+- Fixed bug in header parsing that would cause the last header line to
+  be repeated if there was no body.
+
+- Fixed bug in handling headers containing CR+LF line endings.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.00RC7
+
+- Fixed typo in smtp protocol module that caused HELO to be sent without
+  a hostname.
+
+- Added a one-shot mode to nullmailer-send, triggered by setting the
+  pausetime to zero.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.00RC6
+
+- Protocol modules now report all failure and success messages.
+
+- Removed the whole gethostname/getdomainname mess and replaced it with
+  code to read the hostname from the "me" control file, and the default
+  domain name from the "defaultdomain" control file.
+
+- Fixed a bug that would cause lines starting with a period to have that
+  period stripped when it was sent via SMTP.
+
+- Added some missing includes to fix compilation failures in various
+  sources.
+
+- Fixed a bug in the setenv function in sendmail.cc.
+
+NOTE!  Make sure to set up the new "me" control file before using this
+version.  The RPM install does this automatically.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 1.00RC5
+
+- Fixed getdomainname prototype in lib/hostname.cc.
+- Return proper error codes for permanent and temporary SMTP failures.
+- Adapted to use supervise-scripts 3.
+-------------------------------------------------------------------------------
+Changes in version 1.00RC4
+
+- Fixed the reversed logic in the named pipe bug check.
+- Updated the HOWTO notes.
+- Fixed a compile problem on Solaris (and possibly other systems).
+- Fixed address parsing to strip a trailing period in the domain name.
+-------------------------------------------------------------------------------
+Changes in version 1.00RC3
+
+- Treat the first non-header line in a message as the first line of the
+  body, even if it isn't preceded by a blank line.
+- Fixed another host name bug causing compilation failures on systems
+  without "domainname" in struct utsname.
+- Fixed some typos that would prevent proper TCP connections on many
+  systems.
+- Handle systems that require both a reader and a writer on a named pipe
+  to do a proper select.
+- Added a man page for the sendmail emulator, and an overall man page.
+- Fixed a bug in the fdbuf library that was causing data loss or damage.
+-------------------------------------------------------------------------------
+Changes in version 1.00RC2
+
+- Fixed a bug in the way host names are determined.  This should fix
+  problems with nullmailer-queue reporting an invalid envelope.
+
+- Fixed a portability bug in the mergelib.sh script.
+
+- Fixed a potential bug in the SMTP protocol response handling.
+-------------------------------------------------------------------------------
+Changes in version 1.00RC1
+
+- Imported latest fdbuf, mystring, and cli libraries.
+
+- Fixed a bug in the timezone handling on systems with tm_gmtoff.
+-------------------------------------------------------------------------------
+Changes in version 0.40
+
+- Fixed some compile problems to allow nullmailer to compile on FreeBSD.
+
+- Fixed a bug in the sendmail emulator to allow it to set the sender
+  name and address from the command line properly.
+
+- Modified the CLI library to behave more like the standard getopt
+  library.
+
+- Made a change to protocol between nullmailer-send and protocol
+  modules.  nullmailer-send now opens up the message files and passes
+  them to the protocol module as FD 0 instead of passing a filename.
+
+- Added some notes to the nullmailer-send manual page explaining how
+  messages are delivered.
+-------------------------------------------------------------------------------
+Changes in version 0.39
+
+- Fixed problems in nullmailer-send in parsing the "remotes" file.  It
+  previously did not handle comment lines or tabs or multiple white
+  space.
+
+- Made nullmailer-inject stricter about header lines to ensure that they
+  comply with RFC822.
+
+- Several minor updates to the libraries to bring them up to date.
+-------------------------------------------------------------------------------
+Changes in version 0.38
+
+- Fixed bug in nullmailer-send that caused it to refuse to send mail
+  when the optional "pausetime" configuration file did not exist.
+-------------------------------------------------------------------------------
+Changes in version 0.37
+
+- Fixed bug in address parser that caused strings like "<a@b.c>"
+  (without a leading comment) to fail.
+
+- Make nullmailer-send rescan the mail queue each time it wakes up,
+  rather than only if the timestamp changes to avoids race conditions.
+
+- Make nullmailer-send reload its config files ("remotes" and
+  "pausetime" each time it scans the queue).
+
+- Fixed top-level install-root target to run chmod/chown on the right
+  path to nullmailer-queue.
+
+- Added a configure test for libinet, libsocket, and libxnet libraries
+  for systems that have their networking code separate from the main C
+  library (such as Solaris).
+-------------------------------------------------------------------------------
+Changes in version 0.36
+
+- Imported generic CLI library, to avoid the use of getopt on systems
+  that don't have one.
+-------------------------------------------------------------------------------
+Changes in version 0.35
+
+- Protocols now take a "-p #" to specify the port number to connect to.
+
+- This option can be specified in the "remotes" file immediately after
+  the protocol name.
+
+- nullmailer-send will now only rescan the mail queue if its timestamp
+  has changed since the last scan.
+
+- Fixed an observed problem with empty domain names by using uname(2)
+  instead of domainname and hostname.
+
+- The header address parsing code is rewritten to do a lexical
+  tokenization before parsing.
+
+- Imported new fdbuf and mystring libraries
+
+- Updated init scripts and RPM spec to work with new daemontools 0.61
+  and supervise-scripts packages.
+-------------------------------------------------------------------------------
+Changes in version 0.33
+- fixed a bug in the "list" template class that caused nullmailer-send
+  to only send out one message before sleeping
+- added a trivial address remapping facility to nullmailer-queue to
+  allow local addresses to be redirected to a remote administrator
+  address.
+-------------------------------------------------------------------------------
+Changes in version 0.32
+- the address parser now deals properly with quoted addresses
+-------------------------------------------------------------------------------
+Changes in version 0.31
+- added a HOWTO document
+- "make install-root" will now properly make nullmailer-queue setuid
+  nullmail
+-------------------------------------------------------------------------------
+Changes in version 0.30
+- fixed bug in the I/O library that caused nullmailer-inject to return
+  an error on messages with a single blank line following the header,
+  even though the message was successfully sent to nullmailer-queue
+- in nullmailer-inject, the hostname of the sender is set from the
+  defaulthost config file instead of hostname() (note that default is
+  set from hostname() if the file does not exist)
+- fixed a bug in nullmailer-inject that would cause it to incorrectly
+  clear its recipient list when using command-line recipients with a
+  "resent" message
+-------------------------------------------------------------------------------
+Changes in version 0.29
+- included the testing framework (mostly empty) into the package
+- fixed some bugs in nullmailer-inject caused by incorrect offsets into
+  the array of header fields
+- many bug fixes to the address parsing framework
+- nullmailer-inject now has an option to only print out the message
+  instead of passing it on to nullmailer-queue
+- many sendmail flags are now ignored instead of causing errors in the
+  sendmail front end to nullmailer-inject
+-------------------------------------------------------------------------------
+Changes in version 0.28
+- fixed the bugs in the spec and init script
+- nullmailer-inject now handles the "c" flag like qmail-inject
+- changed some error messages
+- the sendmail front end should have its header vs command-line
+  recipients logic fixed now
+-------------------------------------------------------------------------------
+Changes in version 0.27
+- added a QMQP protocol module
+- fixed a missing NUL-termination when creating the Date header line
+- nullmailer-inject now parses the NULLMAILER_FLAGS -- see the man page
+-------------------------------------------------------------------------------
+Changes in version 0.26
+- nullmailer-queue and nullmailer-send now go into sbin instead of bin
+- bugfixes to the unique number generation routines
+- moved some files around internally
+-------------------------------------------------------------------------------
+Changes in version 0.25
+- nullmailer-send now reads a protocol name along with the remote host
+- nullmailer-inject now handles its command-line options properly, as
+  well as reading and using defaulthost, defaultdomain, and idhost
+- fixed several bugs in the address parsing and date-generation code
+- revised the interface between nullmailer-send and the protocol modules
+  to simplify the interface and nullmailer-send
+-------------------------------------------------------------------------------
+Changes in version 0.22
+- added simple sendmail front end
+-------------------------------------------------------------------------------

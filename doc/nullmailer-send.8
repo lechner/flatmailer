@@ -1,0 +1,198 @@
+.TH nullmailer-send 8
+.SH NAME
+nullmailer-send \- Send queued messages
+.SH SYNOPSIS
+.B nullmailer-send
+.SH DESCRIPTION
+This program is responsible for coordinating the transmission of
+messages that have been queued by
+.BR nullmailer-queue .
+It uses a variety of protocol modules to deliver the messages from the
+queue to remote "smart" servers.
+.P
+When the program starts, the queue is scanned to build a list of
+messages to send.
+The queue is rescanned when either the trigger is pulled, or after
+.B pausetime
+seconds have elapsed after the last failed delivery.
+When there are no messages in the queue, nullmailer does no rescanning
+until the trigger is pulled.
+Pulling the trigger consists of opening up the trigger named pipe and
+writing a single byte to it, which causes this program to be awakened
+(if it's not already processing the queue).
+This procedure is done by
+.B nullmailer-queue
+to ensure that messages are delivered immediately.
+You can start delivery by hand from the command line like this:
+
+.EX
+    echo 1 > trigger
+.EE
+.P
+Delivery of messages consists of reading the list of remote servers and
+then trying to deliver the messages to these servers as follows.
+For each remote in the list, the named protocol handler is executed once
+for each message remaining in the queue.
+If the protocol handler succeeds, the message is removed from the queue
+and processing continues with the next message.
+If the protocol handler reports a permanent failure
+or the message has been in the queue longer than
+.IR queuelifetime ,
+the message is moved into the
+.B failed
+queue and a bounce message is generated with
+.BR nullmailer-dsn .
+If any messages remain in the queue, processing of the remaing
+messages continues with the next remote.
+When all the remotes have been tried,
+.B nullmailer-send
+sleeps for a number of seconds specified by
+.B pausetime
+before retrying sending the contents of the queue.
+.SH CONTROL FILES
+All the control files are reread each time the queue is run.
+.TP
+.B helohost
+Sets the environment variable
+.B $HELOHOST
+which is used by the SMTP protocol module to set the parameter given to
+the
+.I HELO
+command.  Defaults to the value of the
+.B me
+configuration file.
+.TP
+.B maxpause
+The maximum time to pause between successive queue runs, in seconds.
+Defaults to 24 hours
+.RB ( 86400 ).
+.TP
+.B pausetime
+The minimum time to pause between successive queue runs
+when there are messages in the queue, in seconds.
+Defaults to 1 minute
+.RB ( 60 ).
+Each time this timeout is reached, the timeout is doubled to a maximum
+of
+.BR maxpause .
+After new messages are injected, the timeout is reset.
+If this is set to
+.BR 0 ,
+nullmailer-send will exit immediately after going through the queue once
+(one-shot mode).
+.TP
+.B queuelifetime
+The maximum time a message is allowed to live in the queue before being
+considered permanently failed, in seconds. Defaults to 7 days
+.RB ( 604800 ).
+.TP
+.B remotes
+This file contains a list of remote servers to which to send each
+message.
+Each line of this file contains a remote host name or address followed
+by an optional protocol string, separated by white space.
+The protocol name defaults to
+.BR smtp ,
+and may be followed by additional options for that module.
+See the "PROTOCOL OPTIONS" section for a list of the available options.
+The options may optionally be prefixed by
+.I --
+but this is not required.
+The line is parsed according to standard shell quoting rules.
+For example, to connect to port 2525 on your SMTP smart host,
+which also requires SMTP authentication, and initiate TLS with
+STARTTLS, use:
+
+.EX
+    smarthost.dom smtp port=2525 starttls user=user pass='my pass phrase'
+.EE
+
+Blank lines and lines starting with a pound (\fI#\fR) are ignored.
+.TP
+.B sendtimeout
+The time to wait for a remote module listed above to complete sending a
+message before killing it and trying again, in seconds.
+Defaults to 1 hour
+.RB ( 3600 ).
+If this is set to
+.BR 0 ,
+.B nullmailer-send
+will wait forever for messages to complete sending.
+.SH "PROTOCOL OPTIONS"
+.TP
+.B port=\fIPORT
+Set an alternate port number to connect to on the remote host. For example, SMTP may use
+.B port=587
+for the alternate SMTP "submission" port.
+.TP
+.B user=\fIUSERNAME
+Set the SMTP authentication user name.
+.TP
+.B pass=\fIPASSWORD
+Set the SMTP authentication password.
+.TP
+.BI source= HOSTNAME
+Set the source address for connections to the remote host.
+.TP
+.B auth-login
+Force SMTP "AUTH LOGIN" mode instead of auto-detecting.
+.TP
+.B tls
+Connect using TLS.
+This will automatically switch the default port to
+.BR 465 .
+.TP
+.B ssl
+Alias for the
+.B tls
+option for compatibility.
+.TP
+.B starttls
+Use the
+.B STARTTLS
+command to initiate a TLS session.
+.TP
+.B x509certfile=\fIFILENAME
+Set the filename for a TLS client certificate to send to the server.
+.TP
+.B x509keyfile=\fIFILENAME
+Set the filename for the private key for a TLS client certificate.
+Defaults to the same file name as
+.BR x509certfile .
+.TP
+.B x509cafile=\fIFILENAME
+Set the TLS certificate authority trust filename. Defaults to
+.BR /etc/ssl/certs/ca-certificates.crt .
+.TP
+.B x509crlfile=\fIFILENAME
+Set the TLS certificate revocation list filename.
+.TP
+.B x509fmtder
+Specify that TLS X.509 files above are in DER format instead of PEM.
+.TP
+.B insecure
+Don't abort a TLS connection if the server certificate fails validation.
+Use this only if you know the server uses an invalid certificate.
+.SH FILES
+.TP
+.B /var/spool/nullmailer/failed
+The failed message queue.
+.TP
+.B /var/spool/nullmailer/queue
+The outgoing message queue.
+.TP
+.B /var/spool/nullmailer/trigger
+A trigger file to cause immediate delivery.
+.TP
+.B /etc/nullmailer
+The configuration directory.
+.TP
+.B /usr/lib/nullmailer
+The protocol program directory.
+.SH SEE ALSO
+nullmailer-smtp(8),
+nullmailer-qmqp(8)
+nullmailer-dsn(1),
+nullmailer-inject(1),
+nullmailer-queue(8),
+mailq(1)

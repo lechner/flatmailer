@@ -1,0 +1,39 @@
+Template: shared/mailname
+Type: string
+_Description: Mailname of your system:
+ This is the fully-qualified host name of the computer running nullmailer.
+ It defaults to the literal name 'me'.
+
+Template: nullmailer/defaultdomain
+Type: string
+# This prompt is not shown to the user.
+#flag:translate!:*
+_Description: The domain name to be appended to hostnames:
+ This is the domain name which will be added to any hostnames that don't
+ contain a dot (that is to say, which aren't already qualified by a domain).
+
+Template: nullmailer/relayhost
+Type: string
+#flag:translate!:4
+_Description: Smarthosts:
+ This is a colon-separated list of remote servers to which to send each
+ message. Each entry contains a remote host name or address followed by
+ an optional protocol string 'host protocol'. The protocol name defaults
+ to smtp, and may be followed by command-line arguments for that module.
+ .
+ Examples:
+ .
+   smarthost
+   smarthost smtp --port=10025
+   mail.example.com smtp --user=foo --pass=bar
+   192.168.1.254 qmqp 
+   [fe80::5054:ff:fef4:ef81] smtp 
+
+Template: nullmailer/adminaddr
+Type: string
+_Description: Where to send local emails (optional):
+ If not empty, all recipients to users at either 'localhost' (the literal
+ string) or the canonical host name (from /etc/mailname) are remapped to
+ this address. This is provided to allow local daemons to be able to send
+ email to 'somebody@localhost' and have it go somewhere sensible instead of
+ being bounced by your relay host.

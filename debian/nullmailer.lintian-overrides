@@ -1,0 +1,5 @@
+malformed-prompt-in-templates nullmailer/adminaddr
+setuid-binary usr/bin/mailq 4755 mail/root
+setuid-binary usr/sbin/nullmailer-queue 4755 mail/root
+non-standard-dir-perm var/spool/nullmailer/queue/ 0750 != 0755
+non-standard-dir-perm var/spool/nullmailer/tmp/ 0750 != 0755

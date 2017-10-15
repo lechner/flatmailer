@@ -1,0 +1,87 @@
+AC_INIT([nullmailer], [2.0])
+AC_LANG([C++])
+AC_CONFIG_SRCDIR([lib/defines.h])
+AM_INIT_AUTOMAKE
+AM_CONFIG_HEADER(config.h)
+AC_PROG_MAKE_SET
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_CXX
+CXX_NO_RTTI
+CXX_NO_EXCEPTIONS
+
+CFLAGS="$CFLAGS -W -Wall"
+CXXFLAGS="$CXXFLAGS -W -Wall"
+
+AC_PROG_INSTALL
+AC_PROG_RANLIB
+AC_PATH_PROG(STRIP, strip)
+AC_PATH_PROG(RM, rm)
+AC_PATH_PROG(MKDIR, mkdir)
+
+dnl Checks for libraries.
+AC_CHECK_LIB(xnet, socket)
+AC_CHECK_LIB(inet, socket)
+AC_CHECK_LIB(socket, socket)
+
+dnl Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_HEADER_SYS_WAIT
+AC_HEADER_TIME
+dnl AC_CHECK_HEADERS(fcntl.h shadow.h crypt.h)
+AC_CHECK_HEADERS(sys/time.h unistd.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+dnl AC_TYPE_UID_T
+dnl AC_TYPE_SIGNAL
+dnl AC_C_INLINE
+dnl AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+
+TEST_STRUCT_TM
+TEST_STRUCT_UTSNAME
+CHECK_NAMED_PIPE_BUG
+
+dnl Checks for library functions.
+dnl AC_CHECK_FUNCS(gettimeofday mkdir putenv rmdir socket)
+AC_CHECK_FUNCS(setenv srandom)
+
+AC_MSG_CHECKING(for getaddrinfo)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <stddef.h>
+]], [[
+getaddrinfo(NULL, NULL, NULL, NULL)
+]])], [has_getaddrinfo=yes], [has_getaddrinfo=no])
+if test "$has_getaddrinfo" = yes; then
+  AC_MSG_RESULT(yes)
+  AC_DEFINE(HAVE_GETADDRINFO,,[getaddrinfo code enabled])
+else
+  AC_MSG_RESULT(no)
+  AC_MSG_RESULT(disabled: getaddrinfo missing)
+fi
+AC_SUBST(HAVE_GETADDRINFO)
+
+AC_DEFINE(BUFSIZE, 4096, [Generic buffer size])
+AM_CONDITIONAL(FDBUF_NO_MYSTRING, false)
+
+AC_ARG_ENABLE(tls,
+ [  --enable-tls      Enable SSL/TLS support],
+ [case "${enableval}" in
+   yes) tls=true; AC_DEFINE(HAVE_TLS, 1, [Build in support for TLS]) ;;
+   no)  tls=false ;;
+   *) AC_MSG_ERROR(bad value ${enableval} for --enable-tls) ;;
+ esac],[tls=false])
+AM_CONDITIONAL(TLS, $tls)
+
+if $tls; then
+  AC_CHECK_LIB(gnutls, gnutls_certificate_set_verify_function,
+   [AC_DEFINE(HAVE_GNUTLS_SET_VERIFY_FUNCTION, 1, [libgnutls has gnutls_certificate_set_verify_function])])
+fi
+
+AC_CONFIG_FILES([Makefile doc/Makefile lib/Makefile lib/cli++/Makefile lib/fdbuf/Makefile lib/mystring/Makefile protocols/Makefile src/Makefile test/Makefile])
+AC_OUTPUT

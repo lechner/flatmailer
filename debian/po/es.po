@@ -1,0 +1,126 @@
+# nullmailer translation to spanish
+# Copyright (C) 2007 Software in the Public Interest, SPI Inc.
+# This file is distributed under the same license as the nullmailer package.
+#
+# Changes:
+# - Initial translation
+#      Steve Lord Flaubert , 2007
+#
+#
+#  Traductores, si no conoce el formato PO, merece la pena leer la 
+#  documentación de gettext, especialmente las secciones dedicadas a este
+#  formato, por ejemplo ejecutando:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+# Equipo de traducción al español, por favor lean antes de traducir
+# los siguientes documentos:
+#
+# - El proyecto de traducción de Debian al español
+#   http://www.debian.org/intl/spanish/
+#   especialmente las notas y normas de traducción en
+#   http://www.debian.org/intl/spanish/notas
+#
+# - La guía de traducción de po's de debconf:
+#   /usr/share/doc/po-debconf/README-trans
+#   o http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+# Si tiene dudas o consultas sobre esta traducción consulte con el ltimo
+# traductor (campo Last-Translator) y ponga en copia a la lista de
+# traducción de Debian al español (<debian-l10n-spanish@lists.debian.org>)
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nullmailer 11.03-3\n"
+"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"POT-Creation-Date: 2012-03-01 09:23+0000\n"
+"PO-Revision-Date: 2007-03-16 15:00+0100\n"
+"Last-Translator: Steve Lord Flaubert <stonescenter@gmail.com>\n"
+"Language-Team: Debian Spanish <debian-l10n-spanish@lists.debian.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "Mailname of your system:"
+msgstr "Nombre del correo del sistema:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"This is the fully-qualified host name of the computer running nullmailer. It "
+"defaults to the literal name 'me'."
+msgstr ""
+"Este es el nombre completo del ordenador que ejecuta nullmailer. El nombre "
+"predeterminado es «me»."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Smarthosts:"
+msgstr "Equipos inteligentes (smarthosts):"
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid ""
+"This is a colon-separated list of remote servers to which to send each "
+"message. Each entry contains a remote host name or address followed by an "
+"optional protocol string 'host protocol'. The protocol name defaults to "
+"smtp, and may be followed by command-line arguments for that module."
+msgstr ""
+"Esta es una lista de servidores remotos separados por dos puntos, para "
+"enviarles cada mensaje. Cada entrada contiene el nombre o dirección de un "
+"equipo remoto, seguido por una cadena opcional de protocolo «protocolo de "
+"equipo». Por omisión, el nombre del protocolo es «smtp», y puede "
+"especificarse parámetros de línea de orden para ese módulo."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Examples:"
+msgstr "Ejemplos:"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid "Where to send local emails (optional):"
+msgstr "A dónde enviar los correos locales (opcional):"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid ""
+"If not empty, all recipients to users at either 'localhost' (the literal "
+"string) or the canonical host name (from /etc/mailname) are remapped to this "
+"address. This is provided to allow local daemons to be able to send email to "
+"'somebody@localhost' and have it go somewhere sensible instead of being "
+"bounced by your relay host."
+msgstr ""
+"Si no vacía, todo lo que está destinado a usuarios en «localhost» (la cadena "
+"literal) o el nombre canónico del equipo (desde «/etc/mailname») son "
+"remapeados a esta dirección. Se proporciona para permitir a los demonios "
+"locales sean capaces de enviar correos electrónicos a «quiensea@localhost» y "
+"hacer que vayan a algún sitio apropiado en vez que se los devuelva su equipo "
+"retransmisor."
+
+#, fuzzy
+#~| msgid ""
+#~| "  smarthost\n"
+#~| "  smarthost smtp --port=10025\n"
+#~| "  smarthost smtp --user=foo --pass=bar"
+#~ msgid ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar\n"
+#~ "  192.168.1.254 qmqp\n"
+#~ "  [fe80::5054:ff:fef4:ef81] smtp"
+#~ msgstr ""
+#~ "..smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar"

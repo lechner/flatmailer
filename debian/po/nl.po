@@ -1,0 +1,101 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nullmailer\n"
+"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"POT-Creation-Date: 2012-03-01 09:23+0000\n"
+"PO-Revision-Date: 2007-03-13 22:24+0100\n"
+"Last-Translator: Bart Cornelis <cobaco@skolelinux.no>\n"
+"Language-Team: debian-l10n-dutch <debian-l10n-dutch@lists.debian.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Dutch\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "Mailname of your system:"
+msgstr "E-mailnaam van uw systeem:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"This is the fully-qualified host name of the computer running nullmailer. It "
+"defaults to the literal name 'me'."
+msgstr ""
+"Dit is de volledig gekwalificeerde naam (FQDN) van de computer waarop u "
+"nullmailer draait. De standaardwaarde is de letterlijke 'me' (engels voor "
+"ik)."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Smarthosts:"
+msgstr "Smarthosts:"
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid ""
+"This is a colon-separated list of remote servers to which to send each "
+"message. Each entry contains a remote host name or address followed by an "
+"optional protocol string 'host protocol'. The protocol name defaults to "
+"smtp, and may be followed by command-line arguments for that module."
+msgstr ""
+"Dit is een met dubbele punten gescheiden lijst van smarthosts (e-mailservers "
+"via welke berichten verstuurd worden). Elke ingang bevat een servernaam of "
+"adres gevolgd door een optionele protocol-string in de vorm 'computer "
+"protocol'. De protocolnaam  mag gevolgd worden door commandoregel-argumenten "
+"voor die module (de standaardwaarde voor de protocolnaam is smtp)."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Examples:"
+msgstr "Voorbeelden:"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid "Where to send local emails (optional):"
+msgstr "Waar wilt u lokale e-mails heen zenden (optioneel):"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid ""
+"If not empty, all recipients to users at either 'localhost' (the literal "
+"string) or the canonical host name (from /etc/mailname) are remapped to this "
+"address. This is provided to allow local daemons to be able to send email to "
+"'somebody@localhost' and have it go somewhere sensible instead of being "
+"bounced by your relay host."
+msgstr ""
+"Wanneer dit niet leeg is wordt alle e-mail naar gebruikers van "
+"'localhost' (deze letterlijke string) of de canonieke computernaam (van /etc/"
+"mailname) omgeleid naar dit adres. Dit is voorzien om lokale "
+"achtergronddiensten toe te laten e-mail te versturen naar 'iemand@localhost' "
+"en dit op een redelijke plaats af te leveren, i.p.v. dat deze door de "
+"smarthost teruggestuurd worden."
+
+#, fuzzy
+#~| msgid ""
+#~| "  smarthost\n"
+#~| "  smarthost smtp --port=10025\n"
+#~| "  smarthost smtp --user=foo --pass=bar"
+#~ msgid ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar\n"
+#~ "  192.168.1.254 qmqp\n"
+#~ "  [fe80::5054:ff:fef4:ef81] smtp"
+#~ msgstr ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar"

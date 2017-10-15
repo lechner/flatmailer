@@ -1,0 +1,47 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_LDFLAGS_MAINT_APPEND += -Wl,-z,defs -Wl,--as-needed
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+override_dh_prep:
+	dh_prep
+	debconf-updatepo
+
+override_dh_auto_configure:
+	dh_auto_configure -- --libexecdir=/usr/lib --enable-tls
+
+PKGDIR = $(CURDIR)/debian/nullmailer
+SPOOLDIR = $(PKGDIR)/var/spool/nullmailer
+
+# remove trigger from the .deb (Policy 3.8.4 s10.6) - it must be created in initscript
+override_dh_auto_install:
+	dh_auto_install
+	$(RM) $(SPOOLDIR)/trigger
+
+# mutter, I thought dh_installchangelogs Did The Right Thing with GNU-style NEWS changelogs
+override_dh_installchangelogs:
+	dh_installchangelogs -k NEWS
+
+# ensure smooth upgrade from previous stop / start style maintscripts
+override_dh_systemd_start:
+	dh_systemd_start --no-restart-after-upgrade
+
+override_dh_fixperms:
+	dh_fixperms
+	chown mail $(PKGDIR)/usr/sbin/nullmailer-queue $(PKGDIR)/usr/bin/mailq
+	chmod 4755 $(PKGDIR)/usr/sbin/nullmailer-queue $(PKGDIR)/usr/bin/mailq
+	chown -R mail:root $(SPOOLDIR)
+	chmod 0755 $(SPOOLDIR)
+	chmod 0750 $(SPOOLDIR)/queue $(SPOOLDIR)/tmp

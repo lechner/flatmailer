@@ -1,0 +1,101 @@
+# Vietnamese translation for Nullmailer.
+# Copyright © 2009 Free Software Foundation, Inc.
+# Clytie Siddall <clytie@riverland.net.au>, 2005-2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nullmailer 1:1.04-1.1\n"
+"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"POT-Creation-Date: 2012-03-01 09:23+0000\n"
+"PO-Revision-Date: 2009-01-30 23:41+1030\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: LocFactoryEditor 1.8\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "Mailname of your system:"
+msgstr "Tên thư của hệ thống này:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"This is the fully-qualified host name of the computer running nullmailer. It "
+"defaults to the literal name 'me'."
+msgstr ""
+"Giá trị này là tên máy khả năng đầy đủ của máy có chạy trình nullmailer. Mặc "
+"định là tên nghĩa chữ « me » (mình)."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Smarthosts:"
+msgstr "Máy khéo :"
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid ""
+"This is a colon-separated list of remote servers to which to send each "
+"message. Each entry contains a remote host name or address followed by an "
+"optional protocol string 'host protocol'. The protocol name defaults to "
+"smtp, and may be followed by command-line arguments for that module."
+msgstr ""
+"Giá trị này là một danh sách định giới bằng dấu hai chấm chứa các máy phục "
+"vụ từ xa cho chúng cần gửi mỗi thư. Mỗi mục nhập chứa một tên máy từ xa hoặc "
+"địa chỉ, với mộ chuôi giao diện vẫn tùy chọn « host protocol ». Tên giao "
+"thức mặc định là « smtp », mà cũng chấp nhận các đối số dòng lệnh thích hợp "
+"với mô-đun đó."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Examples:"
+msgstr "Ví dụ :"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid "Where to send local emails (optional):"
+msgstr "Gửi thư cục bộ cho đâu (tùy chọn):"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid ""
+"If not empty, all recipients to users at either 'localhost' (the literal "
+"string) or the canonical host name (from /etc/mailname) are remapped to this "
+"address. This is provided to allow local daemons to be able to send email to "
+"'somebody@localhost' and have it go somewhere sensible instead of being "
+"bounced by your relay host."
+msgstr ""
+"Nếu giá trị này không trống, mọi người đều nhận thư từ người dùng ở hoặc « "
+"localhost » hoặc tên máy chuẩn tắc (từ « /etc/mailman ») thì được ánh xạ tới "
+"địa chỉ này. Tính năng này được cung cấp để cho phép trình nền cục bộ gửi "
+"thư điện tử cho « người_nào@localhost » và cho nó tới một nơi có ích, thay "
+"vào bị nhảy bởi máy tiếp lại."
+
+#, fuzzy
+#~| msgid ""
+#~| "  smarthost\n"
+#~| "  smarthost smtp --port=10025\n"
+#~| "  smarthost smtp --user=foo --pass=bar"
+#~ msgid ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar\n"
+#~ "  192.168.1.254 qmqp\n"
+#~ "  [fe80::5054:ff:fef4:ef81] smtp"
+#~ msgstr ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar\n"
+#~ "\n"
+#~ "[smarthost = máy khéo]"

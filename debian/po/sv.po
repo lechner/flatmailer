@@ -1,0 +1,106 @@
+# Translators, if you are not familiar with the PO format, gettext
+# documentation is worth reading, especially sections dedicated to
+# this format, e.g. by running:
+# info -n '(gettext)PO Files'
+# info -n '(gettext)Header Entry'
+# Some information specific to po-debconf are available at
+# /usr/share/doc/po-debconf/README-trans
+# or http://www.debian.org/intl/l10n/po-debconf/README-trans
+# Developers do not need to manually edit POT or PO files.
+# , fuzzy
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: nullmailer 1:1.00-2\n"
+"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"POT-Creation-Date: 2012-03-01 09:23+0000\n"
+"PO-Revision-Date: 2008-07-22 20:08+0100\n"
+"Last-Translator: Martin Bagge <brother@bsnet.se>\n"
+"Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "Mailname of your system:"
+msgstr "Ange e-postnamnet fï¿½r ditt system:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"This is the fully-qualified host name of the computer running nullmailer. It "
+"defaults to the literal name 'me'."
+msgstr ""
+"Detta ï¿½r det fullt kvalificerade vï¿½rdnamnet fï¿½r den dator som kï¿½r "
+"nullmailer. Standardvï¿½rdet ï¿½r helt enkelt namnet 'me'."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Smarthosts:"
+msgstr "Smarthosts:"
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid ""
+"This is a colon-separated list of remote servers to which to send each "
+"message. Each entry contains a remote host name or address followed by an "
+"optional protocol string 'host protocol'. The protocol name defaults to "
+"smtp, and may be followed by command-line arguments for that module."
+msgstr ""
+"Detta ï¿½r en kolon-separerad lista av fjï¿½rrservrar dit varje meddelande "
+"ska skickas. Varje inlï¿½gg innehï¿½ller ett fjï¿½rrvï¿½rdnamn eller address "
+"fï¿½ljt av en valfri protokollstrï¿½ng 'host protocol'. Standard fï¿½r "
+"protokollnamnet ï¿½r smtp och kan fï¿½ljas av ett kommandoargument fï¿½r den "
+"modulen."
+
+#. Type: string
+#. Description
+#: ../templates:3001
+msgid "Examples:"
+msgstr "Exempel:"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid "Where to send local emails (optional):"
+msgstr "Till vilken address ska lokala e-postmeddelanden skickas (valfri)?"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid ""
+"If not empty, all recipients to users at either 'localhost' (the literal "
+"string) or the canonical host name (from /etc/mailname) are remapped to this "
+"address. This is provided to allow local daemons to be able to send email to "
+"'somebody@localhost' and have it go somewhere sensible instead of being "
+"bounced by your relay host."
+msgstr ""
+"Om den inte ï¿½r tom, kommer alla mottagare till anvï¿½ndare pï¿½ antingen "
+"'localhost' (strï¿½ngen literal) eller det kanoniska vï¿½rdnamnet (frï¿½n /"
+"etc/mailname) att kopplas till denna address. Detta ges fï¿½r att tillï¿½ta "
+"lokala daemoner att skicka e-post till ''vemsomhelst@localhost' och fï¿½ det "
+"att gï¿½ nï¿½gonstans istï¿½llet fï¿½r att studsas tillbaka frï¿½n din e-"
+"postgateway."
+
+#, fuzzy
+#~| msgid ""
+#~| "  smarthost\n"
+#~| "  smarthost smtp --port=10025\n"
+#~| "  smarthost smtp --user=foo --pass=bar"
+#~ msgid ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost smtp --user=foo --pass=bar\n"
+#~ "  192.168.1.254 qmqp\n"
+#~ "  [fe80::5054:ff:fef4:ef81] smtp"
+#~ msgstr ""
+#~ "  smarthost\n"
+#~ "  smarthost smtp --port=10025\n"
+#~ "  smarthost:mx.domain:192.168.1.1"
