@@ -1,0 +1,16 @@
+[Unit]
+Description=Flatmailer relay-only MTA
+After=network.target
+RequiresMountsFor=/var/spool/flatmailer
+ConditionPathExists=/var/spool/flatmailer/queue
+Documentation=man:flatmailer(7)
+
+[Service]
+WorkingDirectory=/var/spool/flatmailer
+ExecStart=/usr/sbin/flatmailer-send
+User=mail
+Group=mail
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

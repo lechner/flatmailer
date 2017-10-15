@@ -1,24 +1,24 @@
-.TH nullmailer-smtpd 8
+.TH flatmailer-smtpd 8
 .SH NAME
-nullmailer-smtpd \- sendmail emulator interface for nullmailer
+flatmailer-smtpd \- sendmail emulator interface for flatmailer
 .SH SYNOPSIS
-.B nullmailer-smtpd
+.B flatmailer-smtpd
 .SH DESCRIPTION
 This program is a front end program for
-.BR nullmailer-queue .
+.BR flatmailer-queue .
 It is invoked by
-.BR nullmailer-inject
+.BR flatmailer-inject
 when mail senders request a
 .I sendmail \-bs
 SMTP interface for sending email.  This program accepts SMTP protocol
 on standard input.  On successful completion as far as the DATA command,
 this program executes
-.B nullmailer-queue
+.B flatmailer-queue
 directly with the appropriate sender and recipients.
 See the documentation for
-.B nullmailer-queue
+.B flatmailer-queue
 for details on how messages are queued.
 .SH RETURN VALUE
 Always exits 0.  Any errors are notified to the caller by SMTP extended error codes.
 .SH SEE ALSO
-nullmailer-queue(8)
+flatmailer-queue(8)

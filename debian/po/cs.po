@@ -13,8 +13,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nullmailer\n"
-"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"Project-Id-Version: flatmailer\n"
+"Report-Msgid-Bugs-To: flatmailer@packages.debian.org\n"
 "POT-Creation-Date: 2012-03-01 09:23+0000\n"
 "PO-Revision-Date: 2006-09-24 14:39+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
@@ -34,11 +34,11 @@ msgstr "Poštovní jméno vašeho systému:"
 #. Description
 #: ../templates:1001
 msgid ""
-"This is the fully-qualified host name of the computer running nullmailer. It "
+"This is the fully-qualified host name of the computer running flatmailer. It "
 "defaults to the literal name 'me'."
 msgstr ""
 "Zadejte plně kvalifikované doménové jméno počítače, na kterém poběží "
-"nullmailer. Výchozí hodnota znamená prosté 'já'."
+"flatmailer. Výchozí hodnota znamená prosté 'já'."
 
 #. Type: string
 #. Description

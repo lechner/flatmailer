@@ -5,8 +5,8 @@
 # Yuri Kozlov <kozlov.y@gmail.com>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: nullmailer NEW\n"
-"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"Project-Id-Version: flatmailer NEW\n"
+"Report-Msgid-Bugs-To: flatmailer@packages.debian.org\n"
 "POT-Creation-Date: 2012-03-01 09:23+0000\n"
 "PO-Revision-Date: 2008-10-20 20:35+0400\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
@@ -29,11 +29,11 @@ msgstr "Почтовое имя вашей системы:"
 #. Description
 #: ../templates:1001
 msgid ""
-"This is the fully-qualified host name of the computer running nullmailer. It "
+"This is the fully-qualified host name of the computer running flatmailer. It "
 "defaults to the literal name 'me'."
 msgstr ""
 "Здесь нужно указать полностью определённое доменное имя машины, на которой "
-"запущен nullmailer. По умолчанию 'me'."
+"запущен flatmailer. По умолчанию 'me'."
 
 #. Type: string
 #. Description

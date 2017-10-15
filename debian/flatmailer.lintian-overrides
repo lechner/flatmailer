@@ -1,0 +1,5 @@
+malformed-prompt-in-templates flatmailer/adminaddr
+setuid-binary usr/bin/mailq 4755 mail/root
+setuid-binary usr/sbin/flatmailer-queue 4755 mail/root
+non-standard-dir-perm var/spool/flatmailer/queue/ 0750 != 0755
+non-standard-dir-perm var/spool/flatmailer/tmp/ 0750 != 0755

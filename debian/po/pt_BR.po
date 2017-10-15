@@ -13,8 +13,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nullmailer-1.00rc7-8\n"
-"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"Project-Id-Version: flatmailer-1.00rc7-8\n"
+"Report-Msgid-Bugs-To: flatmailer@packages.debian.org\n"
 "POT-Creation-Date: 2012-03-01 09:23+0000\n"
 "PO-Revision-Date: 2003-03-20 21:46-0300\n"
 "Last-Translator: André Luís Lopes <andrelop@ig.com.br>\n"
@@ -35,11 +35,11 @@ msgstr "Por favor informe o \"mail name\" de seu sistema :"
 #. Description
 #: ../templates:1001
 msgid ""
-"This is the fully-qualified host name of the computer running nullmailer. It "
+"This is the fully-qualified host name of the computer running flatmailer. It "
 "defaults to the literal name 'me'."
 msgstr ""
 "O \"mail name\" é o nome totalmente qualificado do host (computador) onde o "
-"nullmailer será executado. O padrão é o nome literal 'me'."
+"flatmailer será executado. O padrão é o nome literal 'me'."
 
 #. Type: string
 #. Description
@@ -74,7 +74,7 @@ msgstr "Exemplos :"
 #, fuzzy
 msgid "Where to send local emails (optional):"
 msgstr ""
-"Para quais endereços o nullmailer deve enviar mensagens locais (opcional) ?"
+"Para quais endereços o flatmailer deve enviar mensagens locais (opcional) ?"
 
 #. Type: string
 #. Description

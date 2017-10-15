@@ -22,8 +22,8 @@ override_dh_prep:
 override_dh_auto_configure:
 	dh_auto_configure -- --libexecdir=/usr/lib --enable-tls
 
-PKGDIR = $(CURDIR)/debian/nullmailer
-SPOOLDIR = $(PKGDIR)/var/spool/nullmailer
+PKGDIR = $(CURDIR)/debian/flatmailer
+SPOOLDIR = $(PKGDIR)/var/spool/flatmailer
 
 # remove trigger from the .deb (Policy 3.8.4 s10.6) - it must be created in initscript
 override_dh_auto_install:
@@ -40,8 +40,8 @@ override_dh_systemd_start:
 
 override_dh_fixperms:
 	dh_fixperms
-	chown mail $(PKGDIR)/usr/sbin/nullmailer-queue $(PKGDIR)/usr/bin/mailq
-	chmod 4755 $(PKGDIR)/usr/sbin/nullmailer-queue $(PKGDIR)/usr/bin/mailq
+	chown mail $(PKGDIR)/usr/sbin/flatmailer-queue $(PKGDIR)/usr/bin/mailq
+	chmod 4755 $(PKGDIR)/usr/sbin/flatmailer-queue $(PKGDIR)/usr/bin/mailq
 	chown -R mail:root $(SPOOLDIR)
 	chmod 0755 $(SPOOLDIR)
 	chmod 0750 $(SPOOLDIR)/queue $(SPOOLDIR)/tmp

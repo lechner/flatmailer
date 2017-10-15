@@ -1,10 +1,10 @@
 Template: shared/mailname
 Type: string
 _Description: Mailname of your system:
- This is the fully-qualified host name of the computer running nullmailer.
+ This is the fully-qualified host name of the computer running flatmailer.
  It defaults to the literal name 'me'.
 
-Template: nullmailer/defaultdomain
+Template: flatmailer/defaultdomain
 Type: string
 # This prompt is not shown to the user.
 #flag:translate!:*
@@ -12,7 +12,7 @@ _Description: The domain name to be appended to hostnames:
  This is the domain name which will be added to any hostnames that don't
  contain a dot (that is to say, which aren't already qualified by a domain).
 
-Template: nullmailer/relayhost
+Template: flatmailer/relayhost
 Type: string
 #flag:translate!:4
 _Description: Smarthosts:
@@ -29,7 +29,7 @@ _Description: Smarthosts:
    192.168.1.254 qmqp 
    [fe80::5054:ff:fef4:ef81] smtp 
 
-Template: nullmailer/adminaddr
+Template: flatmailer/adminaddr
 Type: string
 _Description: Where to send local emails (optional):
  If not empty, all recipients to users at either 'localhost' (the literal

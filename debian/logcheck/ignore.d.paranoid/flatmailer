@@ -1,0 +1,7 @@
+flatmailer\[[0-9]+\]: Rescanning queue\.
+flatmailer\[[0-9]+\]: Trigger pulled\.
+flatmailer\[[0-9]+\]: Starting delivery, [0-9]+ message\(s\) in queue\.
+flatmailer\[[0-9]+\]: Starting delivery: protocol: [a-z]+ host: .+ file: [0-9\.]+
+flatmailer\[[0-9]+\]: Sent file\.
+flatmailer\[[0-9]+\]: Delivery complete, 0 message\(s\) remain\.
+flatmailer\[[0-9]+\]: smtp: Succeeded:

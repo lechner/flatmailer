@@ -1,12 +1,12 @@
-# Danish translation nullmailer.
-# Copyright (C) 2012 nullmailer & nedenstående oversættere.
-# This file is distributed under the same license as the nullmailer package.
+# Danish translation flatmailer.
+# Copyright (C) 2012 flatmailer & nedenstående oversættere.
+# This file is distributed under the same license as the flatmailer package.
 # Joe Hansen (joedalton2@yahoo.dk), 2012.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nullmailer\n"
-"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"Project-Id-Version: flatmailer\n"
+"Report-Msgid-Bugs-To: flatmailer@packages.debian.org\n"
 "POT-Creation-Date: 2012-03-01 09:23+0000\n"
 "PO-Revision-Date: 2012-02-11 12:42+0000\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
@@ -26,11 +26,11 @@ msgstr "Postnavn for dit system:"
 #. Description
 #: ../templates:1001
 msgid ""
-"This is the fully-qualified host name of the computer running nullmailer. It "
+"This is the fully-qualified host name of the computer running flatmailer. It "
 "defaults to the literal name 'me'."
 msgstr ""
 "Dette er det fuldt kvalificerede værtsnavn for computeren, der kører "
-"nullmailer. Den er som standard det ordrette »me«."
+"flatmailer. Den er som standard det ordrette »me«."
 
 #. Type: string
 #. Description

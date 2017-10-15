@@ -5,8 +5,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nullmailer\n"
-"Report-Msgid-Bugs-To: nullmailer@packages.debian.org\n"
+"Project-Id-Version: flatmailer\n"
+"Report-Msgid-Bugs-To: flatmailer@packages.debian.org\n"
 "POT-Creation-Date: 2012-03-01 09:23+0000\n"
 "PO-Revision-Date: 2007-03-13 22:24+0100\n"
 "Last-Translator: Bart Cornelis <cobaco@skolelinux.no>\n"
@@ -27,11 +27,11 @@ msgstr "E-mailnaam van uw systeem:"
 #. Description
 #: ../templates:1001
 msgid ""
-"This is the fully-qualified host name of the computer running nullmailer. It "
+"This is the fully-qualified host name of the computer running flatmailer. It "
 "defaults to the literal name 'me'."
 msgstr ""
 "Dit is de volledig gekwalificeerde naam (FQDN) van de computer waarop u "
-"nullmailer draait. De standaardwaarde is de letterlijke 'me' (engels voor "
+"flatmailer draait. De standaardwaarde is de letterlijke 'me' (engels voor "
 "ik)."
 
 #. Type: string
