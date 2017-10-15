@@ -11,16 +11,16 @@ queue-test() {
 queue-good() {
     if ! queue-test "$@"
     then
-        fail "nullmailer-queue failed to accept good envelope"
+        fail "flatmailer-queue failed to accept good envelope"
     fi
     qc=$( find $queuedir -type f | wc -l )
     if [ $qc -eq 0 ]
     then
-        fail "nullmailer-queue did not queue a message despite succeeding"
+        fail "flatmailer-queue did not queue a message despite succeeding"
     fi
     if [ $qc -gt 1 ]
     then
-        fail "nullmailer-queue queued multiple messages ?!?"
+        fail "flatmailer-queue queued multiple messages ?!?"
     fi
     qm=$queuedir/*
     sed -e '1,/^$/d' $qm | grep -q '^Subject:' || fail "queued message did not contain body"
@@ -39,12 +39,12 @@ check-recipient() {
 queue-bad() {
     if queue-test "$@"
     then
-        fail "nullmailer-queue failed to reject bad envelope"
+        fail "flatmailer-queue failed to reject bad envelope"
     fi
     qc=$( find $queuedir -type f | wc -l )
     if [ $qc -ne 0 ]
     then
-        fail "nullmailer-queue queued a message after rejecting it"
+        fail "flatmailer-queue queued a message after rejecting it"
     fi
 }
 

@@ -1,5 +1,5 @@
-#ifndef NULLMAILER__PROTOCOL__H__
-#define NULLMAILER__PROTOCOL__H__
+#ifndef FLATMAILER__PROTOCOL__H__
+#define FLATMAILER__PROTOCOL__H__
 
 #include "fdbuf/fdbuf.h"
 

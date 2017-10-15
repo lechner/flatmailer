@@ -3,12 +3,13 @@ export HELOHOST=f.q.d.n
 
 rm -f testmail
 cat >testmail <<EOF
-bruce@untroubled.org
-bruce@untroubled.org
+felix.lechner@lease-up.com
+felix.lechner@lease-up.com
 
-From: <bruce@untroubled.org>
-To: <bruce@untroubled.org>
-Subject: Nullmailer automated test message
+
+From: <felix.lechner@lease-up.com>
+To: <felix.lechner@lease-up.com>
+Subject: Flatmailer automated test message
 
 Just testing, please ignore
 EOF

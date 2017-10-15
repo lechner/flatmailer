@@ -1,8 +1,8 @@
-.TH nullmailer-inject 1
+.TH flatmailer-inject 1
 .SH NAME
-nullmailer-inject \- Reformat and inject a message into the queue.
+flatmailer-inject \- Reformat and inject a message into the queue.
 .SH SYNOPSIS
-.B nullmailer-inject
+.B flatmailer-inject
 [\-a]
 [\-b]
 [\-e]
@@ -98,7 +98,7 @@ All comments are ignored.
 Addresses lists are reformatted as they are parsed for ease of later
 re-parsing when the message reaches the destination(s).
 If an address is missing a fqdn,
-.B nullmailer-inject
+.B flatmailer-inject
 adds one.
 .SH OPTIONS
 .TP
@@ -134,9 +134,9 @@ Exits 0 if it was successful, otherwise it prints a diagnostic message
 to standard error and exits 1.
 .SH ENVIRONMENT
 The environment variable
-.BR NULLMAILER_FLAGS
+.BR FLATMAILER_FLAGS
 is parsed and the behavior of
-.B nullmailer-inject
+.B flatmailer-inject
 is modified if any of the following letters are present:
 .TP
 .B c
@@ -177,7 +177,7 @@ or a
 field.
 .PP
 The user name is set by
-.BR NULLMAILER_USER ,
+.BR FLATMAILER_USER ,
 .BR MAILUSER ,
 .BR USER ,
 or
@@ -188,7 +188,7 @@ from the password file, or set to
 if that fails.
 
 The host name is set by the canonicalized value of
-.BR NULLMAILER_HOST ,
+.BR FLATMAILER_HOST ,
 .BR MAILHOST ,
 or
 .BR HOSTNAME ,
@@ -197,7 +197,7 @@ whichever comes first, or the
 config file if none of the above are set (see below).
 
 The full name of the user is set by
-.BR NULLMAILER_NAME ,
+.BR FLATMAILER_NAME ,
 .BR MAILNAME ,
 or
 .BR NAME ,
@@ -205,14 +205,14 @@ whichever comes first.
 
 The user and host name of the envelope sender default to the user and
 host name set above, but may be overridden by
-.BR NULLMAILER_SUSER
+.BR FLATMAILER_SUSER
 and
-.BR NULLMAILER_SHOST .
+.BR FLATMAILER_SHOST .
 
 If
-.BR NULLMAILER_QUEUE
+.BR FLATMAILER_QUEUE
 is set, the program named is used in place of
-.B nullmailer-queue
+.B flatmailer-queue
 to queue the formatted message.
 .SH CONTROL FILES
 When reading the following files, a single line is read and stripped
@@ -246,11 +246,11 @@ Defaults to the canonicalized value of
 .IR defaulthost .
 .TP
 .B /etc/mailname
-The fully-qualifiled host name of the computer running nullmailer.
+The fully-qualifiled host name of the computer running flatmailer.
 Defaults to the literal name
 .BR me .
 .SH SEE ALSO
-nullmailer-queue(8)
+flatmailer-queue(8)
 .SH NOTES
 This document glosses over very many details of how address parsing
 and rewriting actually works (among other things).

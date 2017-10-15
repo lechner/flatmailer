@@ -2,7 +2,7 @@
 srcdir=@SRCDIR@
 builddir=@BUILDDIR@
 tmpdir=$builddir/test-tmp
-export NULLMAILER_TEST_PREFIX=$tmpdir
+export FLATMAILER_TEST_PREFIX=$tmpdir
 SYSCONFDIR=$tmpdir/conf
 QUEUEDIR=$tmpdir/queue
 rm -rf $tmpdir
@@ -67,9 +67,9 @@ error() {
   fi
 }
 
-inject() { ../src/nullmailer-inject "$@"; }
+inject() { ../src/flatmailer-inject "$@"; }
 mailq() { ../src/mailq "$@"; }
-smtpd() { ../src/nullmailer-smtpd "$@"; }
+smtpd() { ../src/flatmailer-smtpd "$@"; }
 queue() {
     (
         echo "$1"
@@ -81,7 +81,7 @@ queue() {
         done
         echo
         echo "Subject: test"
-    ) | ../src/nullmailer-queue > $tmpdir/queue-out 2> $tmpdir/queue-err
+    ) | ../src/flatmailer-queue > $tmpdir/queue-out 2> $tmpdir/queue-err
 }
 injectlines() {
   for line in "$@"; do

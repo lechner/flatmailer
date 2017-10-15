@@ -1,5 +1,5 @@
-#ifndef NULLMAILER_SELFPIPE__H__
-#define NULLMAILER_SELFPIPE__H__
+#ifndef FLATMAILER_SELFPIPE__H__
+#define FLATMAILER_SELFPIPE__H__
 
 class selfpipe
 {
@@ -13,4 +13,4 @@ class selfpipe
   int waitsig(int timeout = 0);
 };
 
-#endif // NULLMAILER_SELFPIPE__H__
+#endif // FLATMAILER_SELFPIPE__H__

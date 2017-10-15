@@ -1,12 +1,12 @@
-.TH nullmailer-send 8
+.TH flatmailer-send 8
 .SH NAME
-nullmailer-send \- Send queued messages
+flatmailer-send \- Send queued messages
 .SH SYNOPSIS
-.B nullmailer-send
+.B flatmailer-send
 .SH DESCRIPTION
 This program is responsible for coordinating the transmission of
 messages that have been queued by
-.BR nullmailer-queue .
+.BR flatmailer-queue .
 It uses a variety of protocol modules to deliver the messages from the
 queue to remote "smart" servers.
 .P
@@ -15,13 +15,13 @@ messages to send.
 The queue is rescanned when either the trigger is pulled, or after
 .B pausetime
 seconds have elapsed after the last failed delivery.
-When there are no messages in the queue, nullmailer does no rescanning
+When there are no messages in the queue, flatmailer does no rescanning
 until the trigger is pulled.
 Pulling the trigger consists of opening up the trigger named pipe and
 writing a single byte to it, which causes this program to be awakened
 (if it's not already processing the queue).
 This procedure is done by
-.B nullmailer-queue
+.B flatmailer-queue
 to ensure that messages are delivered immediately.
 You can start delivery by hand from the command line like this:
 
@@ -41,11 +41,11 @@ or the message has been in the queue longer than
 the message is moved into the
 .B failed
 queue and a bounce message is generated with
-.BR nullmailer-dsn .
+.BR flatmailer-dsn .
 If any messages remain in the queue, processing of the remaing
 messages continues with the next remote.
 When all the remotes have been tried,
-.B nullmailer-send
+.B flatmailer-send
 sleeps for a number of seconds specified by
 .B pausetime
 before retrying sending the contents of the queue.
@@ -78,7 +78,7 @@ of
 After new messages are injected, the timeout is reset.
 If this is set to
 .BR 0 ,
-nullmailer-send will exit immediately after going through the queue once
+flatmailer-send will exit immediately after going through the queue once
 (one-shot mode).
 .TP
 .B queuelifetime
@@ -116,7 +116,7 @@ Defaults to 1 hour
 .RB ( 3600 ).
 If this is set to
 .BR 0 ,
-.B nullmailer-send
+.B flatmailer-send
 will wait forever for messages to complete sending.
 .SH "PROTOCOL OPTIONS"
 .TP
@@ -175,24 +175,24 @@ Don't abort a TLS connection if the server certificate fails validation.
 Use this only if you know the server uses an invalid certificate.
 .SH FILES
 .TP
-.B /var/spool/nullmailer/failed
+.B /var/spool/flatmailer/failed
 The failed message queue.
 .TP
-.B /var/spool/nullmailer/queue
+.B /var/spool/flatmailer/queue
 The outgoing message queue.
 .TP
-.B /var/spool/nullmailer/trigger
+.B /var/spool/flatmailer/trigger
 A trigger file to cause immediate delivery.
 .TP
-.B /etc/nullmailer
+.B /etc/flatmailer
 The configuration directory.
 .TP
-.B /usr/lib/nullmailer
+.B /usr/lib/flatmailer
 The protocol program directory.
 .SH SEE ALSO
-nullmailer-smtp(8),
-nullmailer-qmqp(8)
-nullmailer-dsn(1),
-nullmailer-inject(1),
-nullmailer-queue(8),
+flatmailer-smtp(8),
+flatmailer-qmqp(8)
+flatmailer-dsn(1),
+flatmailer-inject(1),
+flatmailer-queue(8),
 mailq(1)

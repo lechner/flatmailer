@@ -1,4 +1,4 @@
-libexecdir = @libexecdir@/nullmailer
+libexecdir = @libexecdir@/flatmailer
 
 libexec_PROGRAMS = smtp qmqp
 AM_CPPFLAGS = -I$(top_srcdir)/lib
@@ -12,7 +12,7 @@ TLS_LDADD =
 endif
 
 smtp_SOURCES = smtp.cc protocol.cc $(TLS_SOURCES) protocol.h
-smtp_LDADD = ../lib/cli++/libcli++.a ../lib/libnullmailer.a $(TLS_LDADD)
+smtp_LDADD = ../lib/cli++/libcli++.a ../lib/libflatmailer.a $(TLS_LDADD)
 
 qmqp_SOURCES = qmqp.cc protocol.cc $(TLS_SOURCES) protocol.h
-qmqp_LDADD = ../lib/cli++/libcli++.a ../lib/libnullmailer.a $(TLS_LDADD)
+qmqp_LDADD = ../lib/cli++/libcli++.a ../lib/libflatmailer.a $(TLS_LDADD)

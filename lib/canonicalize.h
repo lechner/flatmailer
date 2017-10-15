@@ -1,7 +1,7 @@
-#ifndef NULLMAILER__CANONICALIZE__H__
-#define NULLMAILER__CANONICALIZE__H__
+#ifndef FLATMAILER__CANONICALIZE__H__
+#define FLATMAILER__CANONICALIZE__H__
 
 #include "mystring/mystring.h"
 void canonicalize(mystring& domain);
 
-#endif // NULLMAILER__CANONICALIZE__H__
+#endif // FLATMAILER__CANONICALIZE__H__

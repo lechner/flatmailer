@@ -1,4 +1,4 @@
-// nullmailer -- a simple relay-only MTA
+// flatmailer -- a simple relay-only MTA
 // Copyright (C) 2016  Bruce Guenter <bruce@untroubled.org>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 //
 // You can contact me at <bruce@untroubled.org>.  There is also a mailing list
 // available to discuss this package.  To subscribe, send an email to
-// <nullmailer-subscribe@lists.untroubled.org>.
+// <flatmailer-subscribe@lists.untroubled.org>.
 
 #include "config.h"
 #include <sys/types.h>
@@ -52,7 +52,7 @@ static const char* opt_diagnostic_code = 0;
 static int opt_lines = -1;
 static bool opt_ddn = false;
 
-const char* cli_program = "nullmailer-dsn";
+const char* cli_program = "flatmailer-dsn";
 const char* cli_help_prefix =
 "Reformat a queued message into a delivery status notification (DSN)\n";
 const char* cli_help_suffix =
@@ -83,8 +83,8 @@ cli_option cli_options[] = {
   CLI_OPTION_END
 };
 
-#define die1sys(MSG) do{ fout << "nullmailer-dsn: " << MSG << strerror(errno) << endl; exit(111); }while(0)
-#define die1(MSG) do{ fout << "nullmailer-dsn: " << MSG << endl; exit(111); }while(0)
+#define die1sys(MSG) do{ fout << "flatmailer-dsn: " << MSG << strerror(errno) << endl; exit(111); }while(0)
+#define die1(MSG) do{ fout << "flatmailer-dsn: " << MSG << endl; exit(111); }while(0)
 
 static mystring sender;
 static mystring bounceto;
@@ -160,7 +160,7 @@ int cli_main(int, char* argv[])
     "--" << boundary << "\n"
     "Content-Type: text/plain; charset=us-ascii\n"
     "\n"
-    "This is the nullmailer delivery system.  The message attached below\n"
+    "This is the flatmailer delivery system.  The message attached below\n"
        << (opt_ddn
 	   ? "has not been"
 	   : "could not be")

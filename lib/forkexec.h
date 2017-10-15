@@ -1,5 +1,5 @@
-#ifndef NULLMAILER__FORK_EXEC__H
-#define NULLMAILER__FORK_EXEC__H
+#ifndef FLATMAILER__FORK_EXEC__H
+#define FLATMAILER__FORK_EXEC__H
 
 #include <sys/types.h>
 #include <sys/wait.h>

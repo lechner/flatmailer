@@ -1,13 +1,13 @@
-Name: nullmailer
+Name: flatmailer
 Summary: Simple relay-only mail transport agent
 Version: @VERSION@
 Release: 1
 License: GPL
 Group: Networking/Daemons
-Source: http://untroubled.org/nullmailer/archive/%{version}/nullmailer-%{version}.tar.gz
-BuildRoot: /tmp/nullmailer-root
-URL: http://untroubled.org/nullmailer/
-Packager: Bruce Guenter <bruce@untroubled.org>
+#Source: http://untroubled.org/flatmailer/archive/%{version}/flatmailer-%{version}.tar.gz
+BuildRoot: /tmp/flatmailer-root
+#URL: http://untroubled.org/flatmailer/
+#Packager: Bruce Guenter <bruce@untroubled.org>
 Provides: smtpdaemon
 Conflicts: sendmail
 Conflicts: qmail
@@ -17,7 +17,7 @@ BuildRequires: gnutls-devel
 Requires(pre,preun): shadow-utils
 
 %description
-Nullmailer is a mail transport agent designed to only relay all its
+Flatmailer is a mail transport agent designed to only relay all its
 messages through a fixed set of "upstream" hosts.  It is also designed
 to be secure.
 
@@ -34,13 +34,13 @@ make
 rm -fr $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/etc
 mkdir -p $RPM_BUILD_ROOT/usr/lib
-mkdir -p $RPM_BUILD_ROOT/var/service/nullmailer/log
-mkdir -p $RPM_BUILD_ROOT/var/log/nullmailer
+mkdir -p $RPM_BUILD_ROOT/var/service/flatmailer/log
+mkdir -p $RPM_BUILD_ROOT/var/log/flatmailer
 
 make DESTDIR=$RPM_BUILD_ROOT install-strip
 ln -s ../sbin/sendmail $RPM_BUILD_ROOT/usr/lib/sendmail
-install scripts/nullmailer.run $RPM_BUILD_ROOT/var/service/nullmailer/run
-install scripts/nullmailer-log.run $RPM_BUILD_ROOT/var/service/nullmailer/log/run
+install scripts/flatmailer.run $RPM_BUILD_ROOT/var/service/flatmailer/run
+install scripts/flatmailer-log.run $RPM_BUILD_ROOT/var/service/flatmailer/log/run
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -49,47 +49,47 @@ rm -rf $RPM_BUILD_ROOT
 PATH="/sbin:/usr/sbin:$PATH" export PATH
 if [ "$1" = 1 ]; then
 	# pre-install instructions
-	grep ^nullmail: /etc/group >/dev/null || groupadd -r nullmail
-	grep ^nullmail: /etc/passwd >/dev/null || useradd -d /var/lock/svc/nullmailer -g nullmail -M -r -s /bin/true nullmail
+	grep ^flatmail: /etc/group >/dev/null || groupadd -r flatmail
+	grep ^flatmail: /etc/passwd >/dev/null || useradd -d /var/lock/svc/flatmailer -g flatmail -M -r -s /bin/true flatmail
 fi
 
 %post
-if ! [ -L /service/nullmailer ]; then
-	svc-add /var/service/nullmailer
+if ! [ -L /service/flatmailer ]; then
+	svc-add /var/service/flatmailer
 fi
-if ! [ -s /etc/nullmailer/me ]; then
-	/bin/hostname --fqdn >/etc/nullmailer/me
+if ! [ -s /etc/flatmailer/me ]; then
+	/bin/hostname --fqdn >/etc/flatmailer/me
 fi
-if ! [ -s /etc/nullmailer/defaultdomain ]; then
-	/bin/hostname --domain >/etc/nullmailer/defaultdomain
+if ! [ -s /etc/flatmailer/defaultdomain ]; then
+	/bin/hostname --domain >/etc/flatmailer/defaultdomain
 fi
 
 %preun
 if [ "$1" = 0 ]; then
-	svc-remove nullmailer
+	svc-remove flatmailer
 fi
 
 %postun
 if [ "$1" = 0 ]; then
 	# post-erase instructions
-	/usr/sbin/userdel nullmail
-	/usr/sbin/groupdel nullmail
+	/usr/sbin/userdel flatmail
+	/usr/sbin/groupdel flatmail
 fi
 
 %files
-%defattr(-,nullmail,nullmail)
+%defattr(-,flatmail,flatmail)
 %doc AUTHORS BUGS ChangeLog COPYING INSTALL NEWS README TODO doc/DIAGRAM
-%dir /etc/nullmailer
-%attr(04711,nullmail,nullmail) /usr/bin/mailq
-/usr/bin/nullmailer-inject
-/usr/bin/nullmailer-smtpd
+%dir /etc/flatmailer
+%attr(04711,flatmail,flatmail) /usr/bin/mailq
+/usr/bin/flatmailer-inject
+/usr/bin/flatmailer-smtpd
 /usr/lib/sendmail
-%dir /usr/libexec/nullmailer
-/usr/libexec/nullmailer/*
+%dir /usr/libexec/flatmailer
+/usr/libexec/flatmailer/*
 %{_mandir}/*/*
-%attr(04711,nullmail,nullmail) /usr/sbin/nullmailer-queue
-/usr/sbin/nullmailer-send
+%attr(04711,flatmail,flatmail) /usr/sbin/flatmailer-queue
+/usr/sbin/flatmailer-send
 /usr/sbin/sendmail
-%dir /var/log/nullmailer
-/var/service/nullmailer
-/var/spool/nullmailer
+%dir /var/log/flatmailer
+/var/service/flatmailer
+/var/spool/flatmailer

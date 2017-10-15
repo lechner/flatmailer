@@ -1,6 +1,6 @@
 .TH sendmail 1
 .SH NAME
-sendmail \- sendmail emulator interface for nullmailer
+sendmail \- sendmail emulator interface for flatmailer
 .SH SYNOPSIS
 .B sendmail
 [
@@ -11,21 +11,21 @@ sendmail \- sendmail emulator interface for nullmailer
 .I message
 .SH DESCRIPTION
 This program is a front end program for
-.B nullmailer-inject
+.B flatmailer-inject
 and
-.BR nullmailer-smtpd .
+.BR flatmailer-smtpd .
 It is used by programs that expect a
 .I sendmail
 interface for sending email.
 After parsing the command-line arguments, this program executes either
-.B nullmailer-inject
+.B flatmailer-inject
 or
-.B nullmailer-smtpd
+.B flatmailer-smtpd
 depending on the presence of the
 .I \-bs
 option on the command-line.
 See the documentation for
-.B nullmailer-inject
+.B flatmailer-inject
 for details on how messages are reformatted and queued.
 .SH OPTIONS
 .TP
@@ -74,7 +74,7 @@ List information about mail queue. This executes
 .B \-bs
 Use the SMTP protocol on standard input and standard output. This
 executes
-.BR nullmailer-smtpd .
+.BR flatmailer-smtpd .
 .TP
 .B \-F ADDRESS
 Sets the full name of the sender.
@@ -88,5 +88,5 @@ An alternate and obsolete form of the \-f flag.
 .B \-t
 Read message for recipients and ignore the command-line arguments.
 .SH SEE ALSO
-nullmailer-inject(1),
-nullmailer-smtpd(1)
+flatmailer-inject(1),
+flatmailer-smtpd(1)

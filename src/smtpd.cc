@@ -1,4 +1,4 @@
-// nullmailer -- a simple relay-only MTA
+// flatmailer -- a simple relay-only MTA
 // Copyright (C) 2016  Bruce Guenter <bruce@untroubled.org>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 //
 // You can contact me at <bruce@untroubled.org>.  There is also a mailing list
 // available to discuss this package.  To subscribe, send an email to
-// <nullmailer-subscribe@lists.untroubled.org>.
+// <flatmailer-subscribe@lists.untroubled.org>.
 
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -37,13 +37,13 @@ static const char resp_mail_ok[] = "250 2.1.0 Sender accepted";
 static const char resp_need_param[] = "501 5.5.2 Syntax error, command requires a parameter";
 static const char resp_no_mail[] = "503 5.5.1 You must send a valid sender first";
 static const char resp_no_param[] = "501 5.5.2 Syntax error, no parameters allowed";
-static const char resp_no_queue[] = "451 4.3.0 Starting nullmailer-queue failed";
+static const char resp_no_queue[] = "451 4.3.0 Starting flatmailer-queue failed";
 static const char resp_no_rcpt[] = "503 5.5.1 You must send a valid recipient first";
 static const char resp_ok[] = "250 2.3.0 OK";
-static const char resp_queue_exiterr[] = "451 4.3.0 Error returned from nullmailer-queue";
+static const char resp_queue_exiterr[] = "451 4.3.0 Error returned from flatmailer-queue";
 static const char resp_queue_ok[] = "250 2.6.0 Accepted message";
-static const char resp_queue_waiterr[] = "451 4.3.0 Error checking return status from nullmailer-queue";
-static const char resp_qwrite_err[] = "451 4.3.0 Write to nullmailer-queue failed";
+static const char resp_queue_waiterr[] = "451 4.3.0 Error checking return status from flatmailer-queue";
+static const char resp_qwrite_err[] = "451 4.3.0 Write to flatmailer-queue failed";
 static const char resp_rcpt_bad[] = "554 5.1.2 Recipient invalid";
 static const char resp_rcpt_ok[] = "250 2.1.5 Recipient accepted";
 static const char resp_unimp[] = "500 5.5.1 Not implemented";
@@ -52,7 +52,7 @@ static mystring line;
 static mystring sender;
 static mystring recipients;
 
-extern const char cli_program[] = "nullmailer-smtpd";
+extern const char cli_program[] = "flatmailer-smtpd";
 
 static int readline()
 {
@@ -257,7 +257,7 @@ static bool dispatch()
 int main(void)
 {
   mystring line;
-  if (!respond("220 nullmailer-smtpd ready"))
+  if (!respond("220 flatmailer-smtpd ready"))
     return 0;
   while (readline()) {
     if (!dispatch())

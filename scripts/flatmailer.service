@@ -1,16 +1,16 @@
 [Unit]
-Description=Nullmailer relay-only MTA
+Description=Flatmailer relay-only MTA
 Requires=network.target
 After=local-fs.target
-ConditionPathExists=/var/spool/nullmailer/queue
-ConditionPathExists=/etc/nullmailer/defaultdomain
-ConditionPathExists=/etc/nullmailer/me
+ConditionPathExists=/var/spool/flatmailer/queue
+ConditionPathExists=/etc/flatmailer/defaultdomain
+ConditionPathExists=/etc/flatmailer/me
 
 [Service]
-WorkingDirectory=/var/spool/nullmailer
-ExecStart=/usr/sbin/nullmailer-send
-User=nullmail
-Group=nullmail
+WorkingDirectory=/var/spool/flatmailer
+ExecStart=/usr/sbin/flatmailer-send
+User=flatmail
+Group=flatmail
 Restart=always
 
 [Install]

@@ -1,4 +1,4 @@
-// nullmailer -- a simple relay-only MTA
+// flatmailer -- a simple relay-only MTA
 // Copyright (C) 2016  Bruce Guenter <bruce@untroubled.org>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 //
 // You can contact me at <bruce@untroubled.org>.  There is also a mailing list
 // available to discuss this package.  To subscribe, send an email to
-// <nullmailer-subscribe@lists.untroubled.org>.
+// <flatmailer-subscribe@lists.untroubled.org>.
 
 #include "config.h"
 #include <errno.h>
@@ -146,16 +146,16 @@ static const char* nqpath()
   static mystring cache;
   if (!cache) {
     const char* env;
-    if ((env = getenv("NULLMAILER_QUEUE")) != NULL)
+    if ((env = getenv("FLATMAILER_QUEUE")) != NULL)
       cache = env;
     else
-      cache = CONFIG_PATH(SBIN, NULL, "nullmailer-queue");
+      cache = CONFIG_PATH(SBIN, NULL, "flatmailer-queue");
   }
   return cache.c_str();
 }
 
 queue_pipe::queue_pipe()
-  : fork_exec("nullmailer-queue")
+  : fork_exec("flatmailer-queue")
 {
 }
 

@@ -1,5 +1,5 @@
-#ifndef NULLMAILER_AUTOCLOSE__H__
-#define NULLMAILER_AUTOCLOSE__H__
+#ifndef FLATMAILER_AUTOCLOSE__H__
+#define FLATMAILER_AUTOCLOSE__H__
 
 #include <unistd.h>
 
@@ -65,4 +65,4 @@ class autoclose_pipe
   }
 };
 
-#endif // NULLMAILER_AUTOCLOSE__H__
+#endif // FLATMAILER_AUTOCLOSE__H__

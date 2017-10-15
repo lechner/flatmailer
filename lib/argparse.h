@@ -1,5 +1,5 @@
-#ifndef NULLMAILER__ARGPARSE__H
-#define NULLMAILER__ARGPARSE__H
+#ifndef FLATMAILER__ARGPARSE__H
+#define FLATMAILER__ARGPARSE__H
 
 #include "mystring/mystring.h"
 #include "list.h"

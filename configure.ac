@@ -1,4 +1,4 @@
-AC_INIT([nullmailer], [2.0])
+AC_INIT([flatmailer], [0.1])
 AC_LANG([C++])
 AC_CONFIG_SRCDIR([lib/defines.h])
 AM_INIT_AUTOMAKE

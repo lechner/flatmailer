@@ -1,9 +1,9 @@
-localstatedir = @localstatedir@/spool/nullmailer
-sysconfdir = @sysconfdir@/nullmailer
+localstatedir = @localstatedir@/spool/flatmailer
+sysconfdir = @sysconfdir@/flatmailer
 
 EXTRA_DIST = BUGS HOWTO INSTALL TODO spec \
-	scripts/nullmailer.run scripts/nullmailer-log.run \
-	scripts/nullmailer.service
+	scripts/flatmailer.run scripts/flatmailer-log.run \
+	scripts/flatmailer.service
 SUBDIRS = doc lib protocols src test
 
 install-data-local:
@@ -20,12 +20,12 @@ install-data-local:
 	chmod 600 $(DESTDIR)$(localstatedir)/trigger
 
 install-root:
-	chown nullmail $(DESTDIR)$(localstatedir)/*
-	chown nullmail $(DESTDIR)$(sbindir)/nullmailer-queue
-	chmod u+s $(DESTDIR)$(sbindir)/nullmailer-queue
-	chown nullmail $(DESTDIR)$(bindir)/mailq
+	chown flatmail $(DESTDIR)$(localstatedir)/*
+	chown flatmail $(DESTDIR)$(sbindir)/flatmailer-queue
+	chmod u+s $(DESTDIR)$(sbindir)/flatmailer-queue
+	chown flatmail $(DESTDIR)$(bindir)/mailq
 	chmod u+s $(DESTDIR)$(bindir)/mailq
 
 dist-hook:
 	sed -e s/@VERSION\@/@VERSION@/ \
-		<$(srcdir)/spec >$(distdir)/nullmailer-@VERSION@.spec
+		<$(srcdir)/spec >$(distdir)/flatmailer-@VERSION@.spec

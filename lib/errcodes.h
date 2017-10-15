@@ -1,5 +1,5 @@
-#ifndef NULLMAILER__ERRCODES__H__
-#define NULLMAILER__ERRCODES__H__
+#ifndef FLATMAILER__ERRCODES__H__
+#define FLATMAILER__ERRCODES__H__
 
 // Temporary errors
 #define ERR_USAGE 1		// Invalid command-line arguments
@@ -30,4 +30,4 @@
 
 extern const char* errorstr(int);
 
-#endif // NULLMAILER__ERRCODES__H__
+#endif // FLATMAILER__ERRCODES__H__

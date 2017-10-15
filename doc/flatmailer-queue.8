@@ -1,8 +1,8 @@
-.TH nullmailer-queue 8
+.TH flatmailer-queue 8
 .SH NAME
-nullmailer-queue \- insert mail messages into the queue
+flatmailer-queue \- insert mail messages into the queue
 .SH SYNOPSIS
-.B nullmailer-queue
+.B flatmailer-queue
 .SH DESCRIPTION
 This program reads a formatted mail message from standard input and
 safely injects it into the outgoing mail queue.
@@ -35,19 +35,19 @@ If this file is not empty, its contents will override the envelope
 sender on all messages.
 .SH OTHER FILES
 .TP
-.B /var/spool/nullmailer/queue
+.B /var/spool/flatmailer/queue
 The directory into which the completed messages are moved.
 .TP
-.B /var/spool/nullmailer/tmp
+.B /var/spool/flatmailer/tmp
 The directory in which messages are formed temporarily.
 .TP
-.B /var/spool/nullmailer/trigger
+.B /var/spool/flatmailer/trigger
 A pipe used to trigger
-.BR nullmailer-send
+.BR flatmailer-send
 to immediately start sending the message from the queue.
 .SH SEE ALSO
-nullmailer-inject(1),
-nullmailer-send(8)
+flatmailer-inject(1),
+flatmailer-send(8)
 .SH LIMITATIONS
 This program should enforce system-wide configurable message length
 limits.

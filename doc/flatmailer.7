@@ -1,37 +1,37 @@
-.TH nullmailer 7
+.TH flatmailer 7
 .SH NAME
-nullmailer \- Overview of nullmailer documentation
+flatmailer \- Overview of flatmailer documentation
 .SH INTRODUCTION
-.B nullmailer
+.B flatmailer
 is a simple and secure relay-only mail transport agent.
 .P
 Documentation on how messages are reformatted and injected into the
 queue can be found in
-.BR nullmailer-inject (1).
+.BR flatmailer-inject (1).
 Documentation on how messages are actually inserted into the queue can
 be found in
-.BR nullmailer-queue (8).
+.BR flatmailer-queue (8).
 The process of sending queued messages is described in
-.BR nullmailer-send (8).
+.BR flatmailer-send (8).
 .P
 The following table lists all the control files used by
-.BR nullmailer .
+.BR flatmailer .
 .P
 .RS
 .nf
 .ta 5c
 control file	used by
-.I adminaddr	\fBnullmailer-dsn\fR, \fBnullmailer-queue
-.I allmailfrom	\fBnullmailer-queue
-.I defaultdomain	\fBnullmailer-dsn\fR, \fBnullmailer-inject
-.I defaulthost	\fBnullmailer-dsn\fR, \fBnullmailer-inject
-.I doublebounceto	\fBnullmailer-dsn
-.I helohost	\fBnullmailer-send
-.I idhost	\fBnullmailer-dsn\fR, \fBnullmailer-inject
-.I maxpause	\fBnullmailer-send
-.I me		\fBnullmailer-dsn\fR, \fBnullmailer-inject
-.I pausetime	\fBnullmailer-send
-.I remotes	\fBnullmailer-send
-.I sendtimeout	\fBnullmailer-send
+.I adminaddr	\fBflatmailer-dsn\fR, \fBflatmailer-queue
+.I allmailfrom	\fBflatmailer-queue
+.I defaultdomain	\fBflatmailer-dsn\fR, \fBflatmailer-inject
+.I defaulthost	\fBflatmailer-dsn\fR, \fBflatmailer-inject
+.I doublebounceto	\fBflatmailer-dsn
+.I helohost	\fBflatmailer-send
+.I idhost	\fBflatmailer-dsn\fR, \fBflatmailer-inject
+.I maxpause	\fBflatmailer-send
+.I me		\fBflatmailer-dsn\fR, \fBflatmailer-inject
+.I pausetime	\fBflatmailer-send
+.I remotes	\fBflatmailer-send
+.I sendtimeout	\fBflatmailer-send
 .fi
 .RE

@@ -18,9 +18,9 @@ echo "Checking that inject does not add more from lines."
 test 1 -eq `inj "from: a@b.c" | wc -l`
 
 echo "Checking that inject will strip from lines."
-export NULLMAILER_FLAGS=f
+export FLATMAILER_FLAGS=f
 inj "from: a@b.c" | not grep -q '^ a@b\.c$'
-unset NULLMAILER_FLAGS
+unset FLATMAILER_FLAGS
 
 echo "Checking that inject obeys me"
 rm -f $SYSCONFDIR/default*
@@ -43,7 +43,7 @@ testvar HOSTNAME test1.org '@test1.org>$'
 
 testvar MAILHOST test2.org '@test2.org>$'
 
-testvar NULLMAILER_HOST test3.org '@test3.org>$'
+testvar FLATMAILER_HOST test3.org '@test3.org>$'
 
 echo "Checking that inject uses getpwnam"
 inj | grep -q " <`id -un`@"
@@ -54,7 +54,7 @@ testvar USER name2 ' <name2@'
 
 testvar MAILUSER name3 ' <name3@'
 
-testvar NULLMAILER_USER name4 ' <name4@'
+testvar FLATMAILER_USER name4 ' <name4@'
 
 echo "Checking that inject uses a blank name."
 inj | grep -q '^ <'
@@ -63,8 +63,8 @@ testvar NAME full1 '^ full1 <'
 
 testvar MAILNAME full2 '^ full2 <'
 
-testvar NULLMAILER_NAME full3 '^ full3 <'
+testvar FLATMAILER_NAME full3 '^ full3 <'
 
 echo "Checking that inject will use address-comment form."
-export NULLMAILER_FLAGS=c
+export FLATMAILER_FLAGS=c
 inj | grep -q '^ name4@test3.org (full3)$'

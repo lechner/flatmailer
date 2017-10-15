@@ -1,4 +1,4 @@
-// nullmailer -- a simple relay-only MTA
+// flatmailer -- a simple relay-only MTA
 // Copyright (C) 2016  Bruce Guenter <bruce@untroubled.org>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 //
 // You can contact me at <bruce@untroubled.org>.  There is also a mailing list
 // available to discuss this package.  To subscribe, send an email to
-// <nullmailer-subscribe@lists.untroubled.org>.
+// <flatmailer-subscribe@lists.untroubled.org>.
 
 #include "config.h"
 #include "mystring/mystring.h"
@@ -38,7 +38,7 @@ void read_hostnames()
   // still there since it's more appropriate for Debian systems
   mystring disregard;
   if (config_read("me", disregard)) {
-    ferr << "Warning: On Debian systems, nullmailer's 'me' is disregarded; please use '/etc/mailname' instead." << endl;
+    ferr << "Warning: On Debian systems, flatmailer's 'me' is disregarded; please use '/etc/mailname' instead." << endl;
   }
   if (!config_read("../mailname", me)) {
     nome = 1;

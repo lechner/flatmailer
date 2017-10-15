@@ -1,4 +1,4 @@
-// nullmailer -- a simple relay-only MTA
+// flatmailer -- a simple relay-only MTA
 // Copyright (C) 2016  Bruce Guenter <bruce@untroubled.org>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 //
 // You can contact me at <bruce@untroubled.org>.  There is also a mailing list
 // available to discuss this package.  To subscribe, send an email to
-// <nullmailer-subscribe@lists.untroubled.org>.
+// <flatmailer-subscribe@lists.untroubled.org>.
 
 #include "config.h"
 #include "defines.h"
@@ -48,8 +48,8 @@ static int show_message = false;
 static int show_envelope = false;
 static const char* o_from = 0;
 
-const char* cli_program = "nullmailer-inject";
-const char* cli_help_prefix = "Reformat and inject a message into the nullmailer queue\n";
+const char* cli_program = "flatmailer-inject";
+const char* cli_help_prefix = "Reformat and inject a message into the flatmailer queue\n";
 const char* cli_help_suffix = "";
 const char* cli_args_usage = "[recipients] <message";
 const int cli_args_min = 0;
@@ -72,9 +72,9 @@ cli_option cli_options[] = {
   CLI_OPTION_END
 };
 
-#define fail(MSG) do{ ferr << "nullmailer-inject: " << MSG << endl; return false; }while(0)
-#define fail_sys(MSG) do{ ferr << "nullmailer-inject: " << MSG << ": " << strerror(errno) << endl; return false; }while(0)
-#define bad_hdr(LINE,MSG) do{ header_has_errors = true; ferr << "nullmailer-inject: Invalid header line:\n  " << LINE << "\n  " MSG << endl; }while(0)
+#define fail(MSG) do{ ferr << "flatmailer-inject: " << MSG << endl; return false; }while(0)
+#define fail_sys(MSG) do{ ferr << "flatmailer-inject: " << MSG << ": " << strerror(errno) << endl; return false; }while(0)
+#define bad_hdr(LINE,MSG) do{ header_has_errors = true; ferr << "flatmailer-inject: Invalid header line:\n  " << LINE << "\n  " MSG << endl; }while(0)
 
 typedef list<mystring> slist;
 // static bool do_debug = false;
@@ -255,7 +255,7 @@ static mystring from;
 
 void setup_from()
 {
-  mystring user = getenv("NULLMAILER_USER");
+  mystring user = getenv("FLATMAILER_USER");
   if(!user) user = getenv("MAILUSER");
   if(!user) user = getenv("USER");
   if(!user) user = getenv("LOGNAME");
@@ -265,13 +265,13 @@ void setup_from()
   }
   if(!user) user = "unknown";
 
-  mystring host = getenv("NULLMAILER_HOST");
+  mystring host = getenv("FLATMAILER_HOST");
   if(!host) host = getenv("MAILHOST");
   if(!host) host = getenv("HOSTNAME");
   if(!host) host = defaulthost;
   canonicalize(host);
 
-  mystring name = getenv("NULLMAILER_NAME");
+  mystring name = getenv("FLATMAILER_NAME");
   if(!name) name = getenv("MAILNAME");
   if(!name) name = getenv("NAME");
 
@@ -284,10 +284,10 @@ void setup_from()
     else      from = user + "@" + host + " (" + name + ")";
   }
   
-  mystring suser = getenv("NULLMAILER_SUSER");
+  mystring suser = getenv("FLATMAILER_SUSER");
   if(!suser) suser = user;
 
-  mystring shost = getenv("NULLMAILER_SHOST");
+  mystring shost = getenv("FLATMAILER_SHOST");
   if(!shost) shost = host;
   canonicalize(shost);
   
@@ -423,12 +423,12 @@ bool fix_header()
 bool send_env(fdobuf& out)
 {
   if(!(out << sender << "\n"))
-    fail("Error sending sender to nullmailer-queue.");
+    fail("Error sending sender to flatmailer-queue.");
   for(slist::iter iter(recipients); iter; iter++)
     if(!(out << *iter << "\n"))
-      fail("Error sending recipients to nullmailer-queue.");
+      fail("Error sending recipients to flatmailer-queue.");
   if(!(out << endl))
-    fail("Error sending recipients to nullmailer-queue.");
+    fail("Error sending recipients to flatmailer-queue.");
   return true;
 }
 
@@ -436,9 +436,9 @@ bool send_header(fdobuf& out)
 {
   for(slist::iter iter(headers); iter; iter++)
     if(!(out << *iter << "\n"))
-      fail("Error sending header to nullmailer-queue.");
+      fail("Error sending header to flatmailer-queue.");
   if(!(out << endl))
-    fail("Error sending header to nullmailer-queue.");
+    fail("Error sending header to flatmailer-queue.");
   return true;
 }
 
@@ -446,7 +446,7 @@ bool send_body(fdobuf& out)
 {
   if(!(out << cur_line) ||
      !fdbuf_copy(fin, out))
-    fail("Error sending message body to nullmailer-queue.");
+    fail("Error sending message body to flatmailer-queue.");
   return true;
 }
 
@@ -483,7 +483,7 @@ bool send_message()
 ///////////////////////////////////////////////////////////////////////////////
 bool parse_flags()
 {
-  for(const char* flagstr = getenv("NULLMAILER_FLAGS");
+  for(const char* flagstr = getenv("FLATMAILER_FLAGS");
       flagstr && *flagstr; flagstr++) {
     switch(*flagstr) {
     case 'c': use_name_address_style=false; break;
@@ -510,7 +510,7 @@ bool parse_args(int argc, char* argv[])
       sender = "";
     else if(!parse_addresses(tmp, list) ||
             !parse_sender(list)) {
-      ferr << "nullmailer-inject: Invalid sender address: " << o_from << endl;
+      ferr << "flatmailer-inject: Invalid sender address: " << o_from << endl;
       return false;
     }
     use_header_sender = false;

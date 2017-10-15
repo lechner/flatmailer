@@ -1,4 +1,4 @@
-// nullmailer -- a simple relay-only MTA
+// flatmailer -- a simple relay-only MTA
 // Copyright (C) 2016  Bruce Guenter <bruce@untroubled.org>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 //
 // You can contact me at <bruce@untroubled.org>.  There is also a mailing list
 // available to discuss this package.  To subscribe, send an email to
-// <nullmailer-subscribe@lists.untroubled.org>.
+// <flatmailer-subscribe@lists.untroubled.org>.
 
 #include "config.h"
 #include <ctype.h>
@@ -45,7 +45,7 @@
 #include "selfpipe.h"
 #include "setenv.h"
 
-const char* cli_program = "nullmailer-send";
+const char* cli_program = "flatmailer-send";
 
 selfpipe selfpipe;
 
@@ -347,8 +347,8 @@ bool bounce_msg(const message& msg, const remote& remote, const mystring& output
     queue_pipe qp;
     autoclose pfd = qp.start();
     if (pfd > 0) {
-      mystring program = program_path("nullmailer-dsn");
-      fork_exec dsn("nullmailer-dsn");
+      mystring program = program_path("flatmailer-dsn");
+      fork_exec dsn("flatmailer-dsn");
       int redirs[] = { fd, pfd };
       mystring status_code, diag_code;
       parse_output(output, remote, status_code, diag_code);

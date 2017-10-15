@@ -12,7 +12,7 @@ echo "Checking that inject does not add more message-ids."
 test 1 -eq `inj "Message-Id: <mid@mid>" | wc -l`
 
 echo "Checking that inject will ignore an existing message-id."
-export NULLMAILER_FLAGS=i
+export FLATMAILER_FLAGS=i
 inj "Message-Id: <mid@mid>" | not grep -q '^ <mid@mid>$'
 
 echo "Checking that inject obeys me"

@@ -1,4 +1,4 @@
-// nullmailer -- a simple relay-only MTA
+// flatmailer -- a simple relay-only MTA
 // Copyright (C) 2016  Bruce Guenter <bruce@untroubled.org>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 //
 // You can contact me at <bruce@untroubled.org>.  There is also a mailing list
 // available to discuss this package.  To subscribe, send an email to
-// <nullmailer-subscribe@lists.untroubled.org>.
+// <flatmailer-subscribe@lists.untroubled.org>.
 
 #include "config.h"
 #include <errno.h>
@@ -35,9 +35,9 @@
 #include "configio.h"
 #include "hostname.h"
 
-const char* cli_program = "nullmailer-queue";
+const char* cli_program = "flatmailer-queue";
 
-#define fail(MSG) do{ fout << "nullmailer-queue: " << MSG << endl; return false; }while(0)
+#define fail(MSG) do{ fout << "flatmailer-queue: " << MSG << endl; return false; }while(0)
 
 pid_t pid = getpid();
 uid_t uid = getuid();
@@ -120,7 +120,7 @@ bool copyenv(fdobuf& out)
 
 bool makereceived(fdobuf& out)
 {
-  mystring line("Received: (nullmailer pid ");
+  mystring line("Received: (flatmailer pid ");
   line += itoa(pid);
   line += " invoked by uid ";
   line += itoa(uid);
@@ -157,10 +157,10 @@ bool deliver()
 
   // Notes:
   // - temporary file name is unique to the currently running
-  //   nullmailer-queue program
+  //   flatmailer-queue program
   // - destination file name is unique to the system
   // - if the temporary file previously existed, it did so because
-  //   the previous nullmailer-queue process crashed, and it can be
+  //   the previous flatmailer-queue process crashed, and it can be
   //   safely overwritten
   const mystring pidstr = itoa(pid);
   const mystring tmpfile = tmp_dir + pidstr;

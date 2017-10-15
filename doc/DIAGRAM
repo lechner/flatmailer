@@ -2,15 +2,15 @@
              /        \
             /          \
            /            \
-nullmailer-inject  nullmailer-smtpd
+flatmailer-inject  flatmailer-smtpd
            \            /
             \          /
              \        /
-          nullmailer-inject
+          flatmailer-inject
                   |
                   |
                   |
-          nullmailer-queue
+          flatmailer-queue
                   |
                   |
                   |
@@ -18,7 +18,7 @@ nullmailer-inject  nullmailer-smtpd
                                |
                                |
                                |
-                        nullmailer-send ---- nullmailer-dsn
+                        flatmailer-send ---- flatmailer-dsn
                                |
                                |
                                |

@@ -1,6 +1,6 @@
 . functions
 
-echo "Testing the nullmailer-smtpd program"
+echo "Testing the flatmailer-smtpd program"
 
 out=$tmpdir/smtpd.out.$$
 
@@ -39,7 +39,7 @@ QUIT
 EOF
 
 diff -u - $out <<EOF
-220 nullmailer-smtpd ready^M
+220 flatmailer-smtpd ready^M
 501 5.5.2 Syntax error, command requires a parameter^M
 250 2.3.0 OK^M
 501 5.5.2 Syntax error, command requires a parameter^M

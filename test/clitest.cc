@@ -2,7 +2,7 @@
 #include "fdbuf/fdbuf.h"
 
 const char* cli_program = "clitest";
-const char* cli_help_prefix = "Nullmailer CLI test harness\n";
+const char* cli_help_prefix = "Flatmailer CLI test harness\n";
 const char* cli_help_suffix = 0;
 const char* cli_args_usage = "[args]";
 const int cli_args_min = 0;

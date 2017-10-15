@@ -54,9 +54,9 @@ testvar MAILHOST test2.org '@test2.org$'
 
 testcanon MAILHOST test2 '@test2.domain.org$'
 
-testvar NULLMAILER_HOST test3.org '@test3.org$'
+testvar FLATMAILER_HOST test3.org '@test3.org$'
 
-testcanon NULLMAILER_HOST test3 '@test3.domain.org$'
+testcanon FLATMAILER_HOST test3 '@test3.domain.org$'
 
 echo "Checking that inject uses getpwnam"
 inj | grep -q "^`id -un`@"
@@ -67,7 +67,7 @@ testvar USER name2 '^name2@'
 
 testvar MAILUSER name3 '^name3@'
 
-testvar NULLMAILER_USER name4 '^name4@'
+testvar FLATMAILER_USER name4 '^name4@'
 
 testign Errors-To a@b.c '^name4@test3'
 testign From a@b.c '^name4@test3'
@@ -78,7 +78,7 @@ testign Resent-Sender a@b.c '^name4@test3'
 testign Return-Receipt-To a@b.c '^name4@test3'
 testign Sender a@b.c '^name4@test3'
 testset Return-Path name0@host0.org '^name0@host0.org$'
-export NULLMAILER_FLAGS=s
+export FLATMAILER_FLAGS=s
 testign Return-Path name0@host0.org '^name4@test3'
 
 testfrom2 '' ''

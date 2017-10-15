@@ -2,7 +2,7 @@
 
 que() {
 	set -e
-	../src/nullmailer-queue && \
+	../src/flatmailer-queue && \
 	cat $QUEUEDIR/queue/* && \
 	rm -f $QUEUEDIR/queue/*
 }
@@ -19,7 +19,7 @@ echo admin@remote >$SYSCONFDIR/adminaddr
 
 echo "Checking that queue rewrites user@localhost to adminaddr."
 que-recip '^admin@remote$' <<EOF
-bruceg@qcc.sk.ca
+felix.lechner@lease-up.com
 user@localhost
 
 header
@@ -29,7 +29,7 @@ EOF
 
 echo "Checking that queue rewrites user@hostname to adminaddr."
 que-recip '^admin@remote$' <<EOF
-bruceg@qcc.sk.ca
+felix.lechner@lease-up.com
 user@f.q.d.n
 
 header
@@ -39,7 +39,7 @@ EOF
 
 echo "Checking that queue does not rewrite non-local users."
 que-recip '^user@nowhere.org$' <<EOF
-bruceg@qcc.sk.ca
+felix.lechner@lease-up.com
 user@nowhere.org
 
 header
@@ -51,7 +51,7 @@ echo admin1@remote1,admin2@remote2 >$SYSCONFDIR/adminaddr
 
 echo "Checking that queue rewrites to multiple adminaddr."
 que-recip '^admin2@remote2$' <<EOF
-bruceg@qcc.sk.ca
+felix.lechner@lease-up.com
 user@localhost
 
 header
@@ -60,8 +60,8 @@ data
 EOF
 
 echo "Checking that queue transmits the envelope sender normally."
-que-sender '^bruceg@qcc.sk.ca$' <<EOF
-bruceg@qcc.sk.ca
+que-sender '^felix.lechner@lease-up.com$' <<EOF
+felix.lechner@lease-up.com
 user@localhost
 
 header
@@ -72,7 +72,7 @@ EOF
 echo "Checking that queue rewrites sender with allmailfrom."
 echo sender@remote3 >$SYSCONFDIR/allmailfrom
 que-sender '^sender@remote3$' <<EOF
-bruceg@qcc.sk.ca
+felix.lechner@lease-up.com
 user@localhost
 
 header

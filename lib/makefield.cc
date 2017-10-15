@@ -1,4 +1,4 @@
-// nullmailer -- a simple relay-only MTA
+// flatmailer -- a simple relay-only MTA
 // Copyright (C) 2016  Bruce Guenter <bruce@untroubled.org>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 //
 // You can contact me at <bruce@untroubled.org>.  There is also a mailing list
 // available to discuss this package.  To subscribe, send an email to
-// <nullmailer-subscribe@lists.untroubled.org>.
+// <flatmailer-subscribe@lists.untroubled.org>.
 
 #include "config.h"
 #include "defines.h"
@@ -59,7 +59,7 @@ mystring make_date(time_t t)
   return mystringjoin(buf) + tz;
 }
 
-// Message ID strings have the form SECONDS.USEC.PID.nullmailer@HOST
+// Message ID strings have the form SECONDS.USEC.PID.flatmailer@HOST
 mystring make_messageid(const mystring& idhost)
 {
   struct timeval tv;
@@ -70,7 +70,7 @@ mystring make_messageid(const mystring& idhost)
   tmp += itoa(tv.tv_usec, 6);
   tmp += '.';
   tmp += itoa(getpid());
-  tmp += ".nullmailer@";
+  tmp += ".flatmailer@";
   tmp += idhost;
   tmp += '>';
   return tmp;

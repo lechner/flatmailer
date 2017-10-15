@@ -1,5 +1,5 @@
-#ifndef NULLMAILER__DEFINES__H__
-#define NULLMAILER__DEFINES__H__
+#ifndef FLATMAILER__DEFINES__H__
+#define FLATMAILER__DEFINES__H__
 
 extern const char QUEUE_DIR[];
 extern const char CONFIG_DIR[];
@@ -13,4 +13,4 @@ extern const char SBIN_DIR[];
 #define BIN_TEST_DIR "bin"
 #define SBIN_TEST_DIR "sbin"
 
-#endif /* NULLMAILER__DEFINES__H__ */
+#endif /* FLATMAILER__DEFINES__H__ */

@@ -2,7 +2,7 @@
 
 msgid=message.id.$$.$RANDOM@f.q.d.n
 dsn() {
-	$builddir/src/nullmailer-dsn "$@" << EOF
+	$builddir/src/flatmailer-dsn "$@" << EOF
 sender@example.com
 recip1@example.net
 recip2@example.org
@@ -41,7 +41,7 @@ grep -qx 'Subject: Returned mail: Could not send message' $fn.3
 echo -n , date
 egrep -q "^Date: $date$" $fn.3
 echo -n , message-id
-grep -q '^Message-Id: <.*.nullmailer@f.q.d.n>$' $fn.3
+grep -q '^Message-Id: <.*.flatmailer@f.q.d.n>$' $fn.3
 echo -n , mime
 grep -qx 'MIME-Version: 1.0' $fn.3
 echo -n , content-type

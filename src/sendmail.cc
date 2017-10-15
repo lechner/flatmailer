@@ -1,4 +1,4 @@
-// nullmailer -- a simple relay-only MTA
+// flatmailer -- a simple relay-only MTA
 // Copyright (C) 2016  Bruce Guenter <bruce@untroubled.org>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 //
 // You can contact me at <bruce@untroubled.org>.  There is also a mailing list
 // available to discuss this package.  To subscribe, send an email to
-// <nullmailer-subscribe@lists.untroubled.org>.
+// <flatmailer-subscribe@lists.untroubled.org>.
 
 #include "config.h"
 #include <stdlib.h>
@@ -31,7 +31,7 @@
 #include "cli++/cli++.h"
 
 const char* cli_program = "sendmail";
-const char* cli_help_prefix = "Nullmailer sendmail emulator\n";
+const char* cli_help_prefix = "Flatmailer sendmail emulator\n";
 const char* cli_help_suffix = 0;
 const char* cli_args_usage = "[recipients] <message";
 const int cli_args_min = 0;
@@ -94,9 +94,9 @@ bool setenvelope(char* str)
   char* at = strchr(str, '@');
   if(at) {
     *at = 0;
-    setenv("NULLMAILER_HOST", at+1, 1);
+    setenv("FLATMAILER_HOST", at+1, 1);
   }
-  setenv("NULLMAILER_USER", str, 1);
+  setenv("FLATMAILER_USER", str, 1);
   return true;
 }
 
@@ -121,16 +121,16 @@ int do_exec(const char* program, const char* xarg1, int argc, char* argv[])
 int cli_main(int argc, char* argv[])
 {
   if(o_sender)
-    setenv("NULLMAILER_NAME", o_sender, 1);
+    setenv("FLATMAILER_NAME", o_sender, 1);
   if(o_from)
     if(!setenvelope(o_from))
       return -1;
   switch (o_mode) {
   case mode_smtp:
-    return do_exec("nullmailer-smtpd", 0, 0, 0);
+    return do_exec("flatmailer-smtpd", 0, 0, 0);
   case mode_mailq:
     return do_exec("mailq", 0, 0, 0);
   default:
-    return do_exec("nullmailer-inject", use_header ? "-b" : "-e", argc, argv);
+    return do_exec("flatmailer-inject", use_header ? "-b" : "-e", argc, argv);
   }
 }

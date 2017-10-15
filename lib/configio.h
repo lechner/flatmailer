@@ -1,5 +1,5 @@
-#ifndef NULLMAILER__CONFIGIO__H__
-#define NULLMAILER__CONFIGIO__H__
+#ifndef FLATMAILER__CONFIGIO__H__
+#define FLATMAILER__CONFIGIO__H__
 
 #include "mystring/mystring.h"
 #include "list.h"
@@ -12,4 +12,4 @@ bool config_readlist(const char* filename, list<mystring>& result);
 bool config_readint(const char* filename, int& result);
 bool config_syserr(const char* filename);
 
-#endif // NULLMAILER__CONFIGIO__H__
+#endif // FLATMAILER__CONFIGIO__H__
