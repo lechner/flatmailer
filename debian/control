@@ -2,8 +2,13 @@ Source: flatmailer
 Section: mail
 Priority: extra
 Maintainer: Felix Lechner <felix.lechner@lease-up.com> 
-Build-Depends: daemontools,
-               debhelper (>= 10.8),
+Build-Depends: debhelper (>= 10.8),
+               dh-golang,
+               golang-github-lib-pq-dev,
+               golang-go,
+               golang-godebiancontrol-dev,
+               golang-codesearch-dev,
+               daemontools,
                libgnutls28-dev | libgnutls-dev,
                po-debconf,
                ucspi-tcp-ipv6

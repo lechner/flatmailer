@@ -12,6 +12,14 @@
 export DEB_LDFLAGS_MAINT_APPEND += -Wl,-z,defs -Wl,--as-needed
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
+# Go parameters
+GOCMD=go
+GOBUILD=$(GOCMD) build
+GOCLEAN=$(GOCMD) clean
+GOTEST=$(GOCMD) test
+GOGET=$(GOCMD) get
+BINARY_NAME=src/main
+
 %:
 	dh $@
 
@@ -21,6 +29,10 @@ override_dh_prep:
 
 override_dh_auto_configure:
 	dh_auto_configure -- --libexecdir=/usr/lib --enable-tls
+
+override_dh_auto_build:
+	dh_auto_build
+	GOPATH=$(CURDIR)/go go install -v -x dsn
 
 PKGDIR = $(CURDIR)/debian/flatmailer
 SPOOLDIR = $(PKGDIR)/var/spool/flatmailer
@@ -45,3 +57,7 @@ override_dh_fixperms:
 	chown -R mail:root $(SPOOLDIR)
 	chmod 0755 $(SPOOLDIR)
 	chmod 0750 $(SPOOLDIR)/queue $(SPOOLDIR)/tmp
+
+override_dh_clean:
+	dh_clean
+	GOPATH=$(CURDIR)/go go clean -i -x dsn
