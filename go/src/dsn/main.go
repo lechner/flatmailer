@@ -16,211 +16,315 @@ package main
 //     You should have received a copy of the GNU General Public License
 //     along with Flatmailer.  If not, see <http://www.gnu.org/licenses/>.
 
+import "flag"
 import "fmt"
+import "strconv"
+import "log"
+import "bufio"
+import "path"
+import "os"
+import "time"
+import "syscall"
 
-func main() {
-    fmt.Println("hello world")
+var diagnosticCode, envelopeId, remoteServer, quoteLimit string
+var firstAttempt, mostRecentAttempt, failAfter string
+
+func init() {
+
+	// string flags
+	flag.StringVar(&diagnosticCode, "diagnostic-code", "",
+		"Diagnostic code `MESSAGE`")
+	flag.StringVar(&envelopeId, "envelope-id", "",
+		"Original envelope `ID`")
+	flag.StringVar(&remoteServer, "remote-server", "",
+		"`HOST` name of remote server")
+
+	// int64 flags
+	flag.StringVar(&firstAttempt, "first-attempt", "",
+		"`TIMESTAMP` of first send attempt (default: filesystem mtime)")
+	flag.StringVar(&mostRecentAttempt, "most-recent-attempt", "",
+		"`TIMESTAMP` of most recent send attempt (default: filesystem atime)")
+	flag.StringVar(&failAfter, "fail-after", "",
+		"`TIMESTAMP` after which to declare failure")
+
+	// int flags
+	flag.StringVar(&quoteLimit, "quote-limit", "",
+		"Most `LINES` included from original message (default: all)")
+	
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: %s [flags] status-code < message\n",
+			path.Base(os.Args[0]))
+		fmt.Fprintf(os.Stderr, "\n")
+		fmt.Fprintf(os.Stderr, "  Produces a delivery status notification (DSN) for a queued message.\n")
+		fmt.Fprintf(os.Stderr, "  The status should look like 4.#.# for a delay, or 5.#.# for a failure.\n")
+		fmt.Fprintf(os.Stderr, "  All timestamps should be in RFC3339 format.\n")
+		fmt.Fprintf(os.Stderr, "\n")
+		fmt.Fprintf(os.Stderr, "The flags are:\n")
+		flag.PrintDefaults()
+	}
+
 }
 
-// #include "config.h"
-// #include <sys/types.h>
-// #include <ctype.h>
-// #include <errno.h>
-// #include <fcntl.h>
-// #include <stdlib.h>
-// #include <string.h>
-// #include <sys/stat.h>
-// #include <time.h>
-// #include <unistd.h>
-// #include "cli++/cli++.h"
-// #include "itoa.h"
-// #include "defines.h"
-// #include "list.h"
-// #include "mystring/mystring.h"
-// #include "fdbuf/fdbuf.h"
-// #include "canonicalize.h"
-// #include "configio.h"
-// #include "hostname.h"
-// #include "makefield.h"
+// TODO
+// utf-8 for addressing and message type may need to be declared
 
-// typedef list<mystring> slist;
+func main() {
 
-// static time_t opt_timestamp = 0;
-// static time_t opt_last_attempt = 0;
-// static time_t opt_retry_until = 0;
-// static const char* opt_envelope_id = 0;
-// static const char* opt_status = 0;
-// static const char* opt_remote = 0;
-// static const char* opt_diagnostic_code = 0;
-// static int opt_lines = -1;
-// static bool opt_ddn = false;
+	// configure logger
+	log.SetPrefix("flatmailer-dsn: ")
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
-// const char* cli_program = "flatmailer-dsn";
-// const char* cli_help_prefix =
-// "Reformat a queued message into a delivery status notification (DSN)\n";
-// const char* cli_help_suffix =
-// "\n"
-// "The status code must be in the form 4.#.# or 5.#.#. If the status\n"
-// "code starts with 4, a delivery delay notification is generated.\n";
-// const char* cli_args_usage = "status-code < message";
-// const int cli_args_min = 1;
-// const int cli_args_max = 1;
-// cli_option cli_options[] = {
-//   { 0, "diagnostic-code", cli_option::string, 0, &opt_diagnostic_code, sizeof(opt_diagnostic_code),
-//     "Diagnostic code message", 0 },
-//   { 0, "envelope-id", cli_option::string, 0, &opt_envelope_id, sizeof(opt_envelope_id),
-//     "Original envelope ID", 0 },
-//   { 0, "last-attempt", cli_option::ulong, 0, &opt_last_attempt, sizeof(opt_last_attempt),
-//     "UNIX timestamp of the last attempt",
-//     "access time on the input message" },
-//   { 0, "orig-timestamp", cli_option::ulong, 0, &opt_timestamp, sizeof(opt_timestamp),
-//     "UNIX timestamp on the original message",
-//     "ctime on the input message" },
-//   { 0, "remote", cli_option::string, 0, &opt_remote, sizeof(opt_remote),
-//     "Name of remote server", 0 },
-//   { 0, "retry-until", cli_option::ulong, 0, &opt_retry_until, sizeof(opt_retry_until),
-//     "UNIX timestamp of the (future) final attempt", 0 },
-//   { 0, "max-lines", cli_option::integer, 0, &opt_lines, sizeof(opt_lines),
-//     "Maximum number of lines of the original message to copy",
-//     "the whole message" },
-//   CLI_OPTION_END
-// };
+	// parse command line flags
+	flag.Parse()
 
-// #define die1sys(MSG) do{ fout << "flatmailer-dsn: " << MSG << strerror(errno) << endl; exit(111); }while(0)
-// #define die1(MSG) do{ fout << "flatmailer-dsn: " << MSG << endl; exit(111); }while(0)
+	ourInputFormat := time.RFC3339
+	ourOutputFormat := time.RFC1123Z
+	
+	if len(flag.Args()) != 1 {
+		log.Fatalln("Need exactly one argument besides flags")
+	}	
+	status := flag.Arg(0)
 
-// static mystring sender;
-// static mystring bounceto;
-// static mystring doublebounceto;
-// static mystring line;
-// static slist recipients;
+	var class, subject, detail int
+	items, err := fmt.Sscanf(status, "%1d.%3d.%3d",
+		&class, &subject, &detail)
+	if items != 3 || (class != 4 && class != 5) {
+		log.Fatalln("Status must have format 4.#.# or 5.#.#:", err);
+	}
 
-// static mystring idhost;
-// static const mystring boundary = make_boundary();
+	delay := (class == 4)
 
-// int cli_main(int, char* argv[])
-// {
-//   struct stat msgstat;
-//   if (fstat(0, &msgstat) < 0)
-//     die1sys("Could not stat the source message");
-//   if (opt_timestamp == 0)
-//     opt_timestamp = msgstat.st_ctime;
-//   if (opt_last_attempt == 0)
-//     opt_last_attempt = msgstat.st_atime;
-//   opt_status = argv[0];
-//   if ((opt_status[0] != '4' && opt_status[0] != '5')
-//       || opt_status[1] != '.'
-//       || !isdigit(opt_status[2])
-//       || opt_status[3] != '.'
-//       || !isdigit(opt_status[4])
-//       || opt_status[5] != '\0')
-//     die1("Status must be in the format 4.#.# or 5.#.#");
-//   opt_ddn = opt_status[0] == '4';
-//   if (opt_lines < 0)
-//     config_readint("bouncelines", opt_lines);
+	// stat input file
+	info, err := os.Stdin.Stat()
+	if err != nil {
+		log.Fatalln("Could not stat source message:", err)
+		// original: exit(111)
+	}
 
-//   if (!config_read("doublebounceto", doublebounceto)
-//       || !doublebounceto)
-//     config_read("adminaddr", doublebounceto);
-//   read_hostnames();
-//   if (!config_read("idhost", idhost))
-//     idhost = me;
-//   else
-//     canonicalize(idhost);
-//   config_read("bounceto", bounceto);
+	// set time of first attempt
+	if firstAttempt != "" {
+		// rewrite timestamp in our format
+		timestamp, err := time.Parse(ourInputFormat, firstAttempt)
+		if err != nil {
+			log.Fatalln("timestamp", firstAttempt,
+				"has invalid format:", err)
+		}
+		firstAttempt = timestamp.Format(ourOutputFormat)
+	} else {
+		// get mtime
+		firstAttempt = info.ModTime().Format(ourOutputFormat)
+		// original: ctime
+	}
 
-//   if (!fin.getline(sender))
-//     die1sys("Could not read sender address from message: ");
-//   if (!sender && !doublebounceto)
-//     die1("Nowhere to send double bounce");
-//   while (fin.getline(line)) {
-//     if (!line)
-//       break;
-//     recipients.append(line);
-//   }
-//   if (recipients.count() == 0)
-//     die1("No recipients were read from message");
+	if mostRecentAttempt != "" {
+		timestamp, err := time.Parse(ourInputFormat, mostRecentAttempt)
+		if err != nil {
+			log.Fatalln("timestamp", mostRecentAttempt,
+				"has invalid format:", err)
+		}
+		mostRecentAttempt = timestamp.Format(ourOutputFormat)
+	} else {
+		// get atime
+		stat := info.Sys().(*syscall.Stat_t)
+		timestamp := time.Unix(stat.Atim.Sec, stat.Atim.Nsec)
+		mostRecentAttempt = timestamp.Format(ourOutputFormat)
+	}
 
-//   if (!!sender)
-//     // Bounces either go to the sender or bounceto, if configured
-//     fout << '\n' << (!!bounceto ? bounceto : sender);
-//   else
-//     fout << "#@[]\n" << doublebounceto;
+	if failAfter != "" {
+		timestamp, err := time.Parse(ourInputFormat, failAfter);
+		if err != nil {
+			log.Fatalln("timestamp", failAfter,
+				"has invalid format:", err)
+		}
+		failAfter = timestamp.Format(ourOutputFormat)
+	}
+	
+	if quoteLimit == "" {
+		// config_readint("bouncelines", opt_lines);
+	}
+	maxLines := 0
+	if quoteLimit != "" {
+		maxLines, err = strconv.Atoi(quoteLimit)
+		if err != nil {
+			log.Fatalln("parameter for quote limit must me a number")
+		}
+	}
 
-//   fout << "\n"
-//     "\n"
-//     "From: Message Delivery Subsystem <MAILER-DAEMON@" << me << ">\n"
-//     "To: <" << sender << ">\n"
-//     "Subject: Returned mail: Could not send message\n"
-//     "Date: " << make_date() << "\n"
-//     "Message-Id: " << make_messageid(idhost) << "\n"
-//     "MIME-Version: 1.0\n"
-//     "Content-Type: multipart/report; report-type=delivery-status;\n"
-//     "\tboundary=\"" << boundary << "\"\n";
+	doubleBounceTo := "felix.lechner@lease-up.com"
+	//   if (!config_read("doublebounceto", doublebounceto)
+	//       || !doublebounceto)
+	//     config_read("adminaddr", doublebounceto);
 
-//   /* Human readable text portion */
-//   fout << "\n"
-//     "--" << boundary << "\n"
-//     "Content-Type: text/plain; charset=us-ascii\n"
-//     "\n"
-//     "This is the flatmailer delivery system.  The message attached below\n"
-//        << (opt_ddn
-// 	   ? "has not been"
-// 	   : "could not be")
-//        << " delivered to one or more of the intended recipients:\n"
-//     "\n";
-//   for (slist::const_iter recipient(recipients); recipient; recipient++)
-//     fout << "\t<" << (*recipient) << ">\n";
-//   if (opt_ddn) {
-//     if (opt_retry_until > 0)
-//       fout << "\nDelivery will continue to be attempted until "
-// 	   << make_date(opt_retry_until) << '\n';
-//     fout << "\n"
-//       "A final delivery status notification will be generated if delivery\n"
-//       "proves to be impossible within the configured time limit.\n";
-//   }
+	mailHostId := "dummy"
+	//   read_hostnames();
+	//   if (!config_read("idhost", idhost))
+	//     idhost = me;
+	//   else
+	//     canonicalize(idhost);
 
-//   /* delivery-status portion */
-//   fout << "\n"
-//     "--" << boundary << "\n"
-//     "Content-Type: message/delivery-status\n"
-//     "\n"
-//     "Reporting-MTA: x-local-hostname; " << me << "\n"
-//     "Arrival-Date: " << make_date(opt_timestamp) << "\n";
-//   if (opt_envelope_id != 0)
-//     fout << "Original-Envelope-Id: " << opt_envelope_id << '\n';
+	bounceTo := ""
+	//   config_read("bounceto", bounceto);
 
-//   for (slist::const_iter recipient(recipients); recipient; recipient++) {
-//     fout << "\n"
-//       "Final-Recipient: rfc822; " << (*recipient) << "\n"
-//       "Action: " << (opt_ddn ? "delayed": "failed") << "\n"
-//       "Status: " << opt_status << "\n"
-//       "Last-Attempt-Date: " << make_date(opt_last_attempt) << '\n';
-//     if (opt_remote != 0)
-//       fout << "Remote-MTA: dns; " << opt_remote << '\n';
-//     if (opt_diagnostic_code != 0)
-//       fout << "Diagnostic-Code: " << opt_diagnostic_code << '\n';
-//     if (opt_ddn and opt_retry_until > 0)
-//       fout << "Will-Retry-Until: " << make_date(opt_retry_until) << '\n';
-//   }
+	// get time for timestamps
+	thisTime := time.Now()
+	boundary := fmt.Sprintf("%d.%9d.%d", thisTime.Unix(),
+		thisTime.Nanosecond(), os.Getpid())
+	// original: microseconds with six digits
+	messageId := fmt.Sprintf("<%s.flatmailer@%s>", boundary, mailHostId)
+		
+	// read from stdin
+	scanner := bufio.NewScanner(os.Stdin)
 
-//   // Copy the message
-//   fout << "\n"
-//     "--" << boundary << "\n"
-//     "Content-Type: message/rfc822\n"
-//     "\n";
-//   // Copy the header
-//   while (fin.getline(line) && !!line)
-//     fout << line << '\n';
-//   // Optionally copy the body
-//   if (opt_lines) {
-//     fout << '\n';
-//     for (int i = 0; (opt_lines < 0 || i < opt_lines) && fin.getline(line); i++)
-//       fout << line << '\n';
-//   }
+	// read original sender
+	if !scanner.Scan() {
+		if err := scanner.Err(); err != nil {
+			log.Fatalln("Could not read sender address from message:",
+				err)
+		}
+	}
+	sender:= scanner.Text()	
 
-//   fout << "\n"
-//     "--" << boundary << "--\n";
+	// read original recipients
+	var recipients []string
+	for scanner.Scan() {
+		line := scanner.Text()
+		if len(line) == 0 {
+			break
+		}
+		recipients = append(recipients, line)
+	}
+	if err := scanner.Err(); err != nil {
+		log.Fatalln("No recipients were read from message", err)
+	}
 
-//   return 0;
-// }
+	// find best recipient for bounce message
+	if sender != "" {
+		if bounceTo != "" {
+			fmt.Printf("%s", bounceTo)
+		} else {
+			fmt.Printf("%s", sender)
+		}
+	} else {
+		if doubleBounceTo != "" {
+			fmt.Printf("#@[]\n")
+			fmt.Printf("%s", doubleBounceTo)
+		} else {
+			log.Fatalln("Nowhere to send double bounce")
+		}
+	}
+	fmt.Printf("\n")
+
+	// generate delivery status notification
+	
+	fmt.Printf("\n")
+	fmt.Printf("From: Message Delivery Subsystem <MAILER-DAEMON@%s\n",
+		mailHostId)
+	fmt.Printf("To: <%s>\n", sender)
+	fmt.Printf("Subject: Returned mail: Could not send message\n")
+	fmt.Printf("Date: %s\n", thisTime.Format(ourOutputFormat))
+	fmt.Printf("Message-Id: %s\n", messageId)
+
+	fmt.Printf("MIME-Version: 1.0\n")
+	fmt.Printf("Content-Type: multipart/report; report-type=delivery-status;\n")
+	fmt.Printf("\tboundary=\"%s\"\n", boundary)
+
+	// human readable text portion
+
+	fmt.Printf("\n")
+	fmt.Printf("--%s\n", boundary)
+	fmt.Printf("Content-Type: text/plain; charset=us-ascii\n")
+	fmt.Printf("\n")
+	fmt.Printf("This is the flatmailer delivery system. The message attached below \n")
+	if delay {
+		fmt.Printf("has not been")
+	} else {
+		fmt.Printf("could not be")
+	}
+	fmt.Printf(" delivered to one or more of the intended recipients:\n")
+	
+	fmt.Printf("\n")
+	for _, recipient := range recipients {
+		fmt.Printf("\t<%s>\n", recipient)
+	}
+	
+	if delay {
+		if failAfter != "" {
+			fmt.Printf("\n")
+			fmt.Printf("Delivery attempts will continue until %s\n",
+				failAfter)
+		}
+		fmt.Printf("\n")
+		fmt.Printf("A final delivery status notification will be generated if delivery\n")
+		fmt.Printf("proves to be impossible within the configured time limit.\n")
+	}
+	
+	// delivery-status portion
+
+	fmt.Printf("\n")
+	fmt.Printf("--%s\n", boundary)
+	fmt.Printf("Content-Type: message/delivery-status\n")
+	
+	fmt.Printf("\n")
+	fmt.Printf("Reporting-MTA: x-local-hostname; %s\n", mailHostId)
+	fmt.Printf("Arrival-Date: %s\n", firstAttempt)
+	
+	if envelopeId != "" {
+		fmt.Printf("Original-Envelope-Id: %s\n", envelopeId)
+	}
+
+	for _, recipient := range recipients {
+		fmt.Printf("\n")
+		fmt.Printf("Final-Recipient: rfc822; %s\n", recipient)
+		if delay {
+			fmt.Printf("Action: delayed\n")
+		} else {
+			fmt.Printf("Action: failed\n")
+		}
+		fmt.Printf("Status: %s\n", status)
+		fmt.Printf("Last-Attempt-Date: %s\n", mostRecentAttempt)
+
+		if remoteServer != "" {
+			fmt.Printf("Remote-MTA: dns; %s\n", remoteServer)
+		}
+		if diagnosticCode != "" {
+			fmt.Printf("Diagnostic-Code: %s\n", diagnosticCode)
+		}
+		if delay && failAfter != "" {
+			fmt.Printf("Will-Retry-Until: %s\n", failAfter)
+		}
+	}
+	
+	// copy the original message
+	fmt.Printf("\n")
+	fmt.Printf("--%s\n", boundary)
+	fmt.Printf("Content-Type: message/rfc822")
+	fmt.Printf("\n")
+	
+	// copy header
+	for scanner.Scan() {
+		line := scanner.Text()
+		if len(line) == 0 {
+			break
+		}		
+		fmt.Println(line)
+	}
+	if err := scanner.Err(); err != nil {
+		log.Fatalln("Could not read message header:", err)
+	}
+
+	// optionally copy body
+	if quoteLimit == "" || maxLines > 0 {
+		fmt.Printf("\n")
+		lines := 0
+		for (quoteLimit == "" || lines < maxLines) && scanner.Scan() {
+			fmt.Println(scanner.Text())
+			lines++
+		}
+		if err := scanner.Err(); err != nil {
+			log.Fatalln("Could not read message body:", err)
+		}
+	}
+	
+	fmt.Printf("\n")
+	fmt.Printf("--%s\n", boundary)
+}
