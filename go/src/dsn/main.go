@@ -26,20 +26,27 @@ import "os"
 import "time"
 import "syscall"
 
+// * * * TODO * * *
+// utf-8 for addressing and message type may need to be declared
+
 var diagnosticCode, envelopeId, remoteServer, quoteLimit string
 var firstAttempt, mostRecentAttempt, failAfter string
 
 func init() {
 
-	// string flags
+	// remote connection
+	flag.StringVar(&remoteServer, "remote-server", "",
+		"`HOST` name of remote server")
+
+	// message options
 	flag.StringVar(&diagnosticCode, "diagnostic-code", "",
 		"Diagnostic code `MESSAGE`")
 	flag.StringVar(&envelopeId, "envelope-id", "",
 		"Original envelope `ID`")
-	flag.StringVar(&remoteServer, "remote-server", "",
-		"`HOST` name of remote server")
+	flag.StringVar(&quoteLimit, "quote-limit", "",
+		"Most `LINES` included from original message (default: all)")
 
-	// int64 flags
+	// timestamps
 	flag.StringVar(&firstAttempt, "first-attempt", "",
 		"`TIMESTAMP` of first send attempt (default: filesystem mtime)")
 	flag.StringVar(&mostRecentAttempt, "most-recent-attempt", "",
@@ -47,26 +54,62 @@ func init() {
 	flag.StringVar(&failAfter, "fail-after", "",
 		"`TIMESTAMP` after which to declare failure")
 
-	// int flags
-	flag.StringVar(&quoteLimit, "quote-limit", "",
-		"Most `LINES` included from original message (default: all)")
-	
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: %s [flags] status-code < message\n",
 			path.Base(os.Args[0]))
 		fmt.Fprintf(os.Stderr, "\n")
 		fmt.Fprintf(os.Stderr, "  Produces a delivery status notification (DSN) for a queued message.\n")
 		fmt.Fprintf(os.Stderr, "  The status should look like 4.#.# for a delay, or 5.#.# for a failure.\n")
-		fmt.Fprintf(os.Stderr, "  All timestamps should be in RFC3339 format.\n")
+		fmt.Fprintf(os.Stderr, "  The flags are:\n")
 		fmt.Fprintf(os.Stderr, "\n")
-		fmt.Fprintf(os.Stderr, "The flags are:\n")
 		flag.PrintDefaults()
+		fmt.Fprintf(os.Stderr, "\n")
+		fmt.Fprintf(os.Stderr, "  All timestamps should be in RFC3339 format.\n")
 	}
 
 }
 
-// TODO
-// utf-8 for addressing and message type may need to be declared
+type Config struct {
+	mailName, hostId string
+	defaultHost, defaultDomain string
+	postMaster, bounceTo, doubleBounceTo string
+	quoteLimit string
+}
+
+func readConfig() Config {
+
+	var config Config
+
+	config.mailName = "lechner-desktop.us-core.com"
+	config.hostId = ""
+	config.defaultHost = ""
+	config.defaultDomain = "us-core.com"
+	config.postMaster = "felix.lechner@lease-up.com"
+
+//	if  config.hostId == "" {
+  // 		config.hostId = config.defaultHost
+
+  // 		if config.hostId != "localhost" {
+		
+  // 	}
+
+	
+  // 	}
+  // 	}
+  // 	if config.hostId != "" && config.hostId != "localhost" &&  no dots found {
+  // 		if defaultDomain != "" {
+			
+  // if(!domain)
+  //   domain = defaulthost;
+  // if(domain != "localhost" && domain.find_first('.') < 0) {
+  //   if(!!defaultdomain) {
+  //     if (!!domain) domain += ".";
+  //     domain += defaultdomain;
+  //   }
+	// }
+	return config
+}
+
 
 func main() {
 
@@ -77,6 +120,8 @@ func main() {
 	// parse command line flags
 	flag.Parse()
 
+	config := readConfig()
+	
 	ourInputFormat := time.RFC3339
 	ourOutputFormat := time.RFC1123Z
 	
@@ -103,7 +148,7 @@ func main() {
 
 	// set time of first attempt
 	if firstAttempt != "" {
-		// rewrite timestamp in our format
+		// rewrite timestamp in our output format
 		timestamp, err := time.Parse(ourInputFormat, firstAttempt)
 		if err != nil {
 			log.Fatalln("timestamp", firstAttempt,
@@ -117,6 +162,7 @@ func main() {
 	}
 
 	if mostRecentAttempt != "" {
+		// rewrite timestamp in our output format
 		timestamp, err := time.Parse(ourInputFormat, mostRecentAttempt)
 		if err != nil {
 			log.Fatalln("timestamp", mostRecentAttempt,
@@ -130,7 +176,9 @@ func main() {
 		mostRecentAttempt = timestamp.Format(ourOutputFormat)
 	}
 
+	// the retry time limit
 	if failAfter != "" {
+		// rewrite timestamp in our output format
 		timestamp, err := time.Parse(ourInputFormat, failAfter);
 		if err != nil {
 			log.Fatalln("timestamp", failAfter,
@@ -138,9 +186,10 @@ func main() {
 		}
 		failAfter = timestamp.Format(ourOutputFormat)
 	}
-	
+
+	// set up the quote limit for original message
 	if quoteLimit == "" {
-		// config_readint("bouncelines", opt_lines);
+		quoteLimit = config.quoteLimit
 	}
 	maxLines := 0
 	if quoteLimit != "" {
@@ -149,28 +198,25 @@ func main() {
 			log.Fatalln("parameter for quote limit must me a number")
 		}
 	}
+	
+	hostId := config.hostId
+	if hostId == "" {
+		hostId = config.mailName
+	}
 
-	doubleBounceTo := "felix.lechner@lease-up.com"
-	//   if (!config_read("doublebounceto", doublebounceto)
-	//       || !doublebounceto)
-	//     config_read("adminaddr", doublebounceto);
+	bounceTo := config.bounceTo
 
-	mailHostId := "dummy"
-	//   read_hostnames();
-	//   if (!config_read("idhost", idhost))
-	//     idhost = me;
-	//   else
-	//     canonicalize(idhost);
-
-	bounceTo := ""
-	//   config_read("bounceto", bounceto);
+	doubleBounceTo := config.doubleBounceTo
+	if doubleBounceTo == "" {
+		doubleBounceTo = config.postMaster
+	}
 
 	// get time for timestamps
 	thisTime := time.Now()
 	boundary := fmt.Sprintf("%d.%9d.%d", thisTime.Unix(),
 		thisTime.Nanosecond(), os.Getpid())
 	// original: microseconds with six digits
-	messageId := fmt.Sprintf("<%s.flatmailer@%s>", boundary, mailHostId)
+	messageId := fmt.Sprintf("<%s.flatmailer@%s>", boundary, hostId)
 		
 	// read from stdin
 	scanner := bufio.NewScanner(os.Stdin)
@@ -218,7 +264,7 @@ func main() {
 	
 	fmt.Printf("\n")
 	fmt.Printf("From: Message Delivery Subsystem <MAILER-DAEMON@%s\n",
-		mailHostId)
+		hostId)
 	fmt.Printf("To: <%s>\n", sender)
 	fmt.Printf("Subject: Returned mail: Could not send message\n")
 	fmt.Printf("Date: %s\n", thisTime.Format(ourOutputFormat))
@@ -265,7 +311,7 @@ func main() {
 	fmt.Printf("Content-Type: message/delivery-status\n")
 	
 	fmt.Printf("\n")
-	fmt.Printf("Reporting-MTA: x-local-hostname; %s\n", mailHostId)
+	fmt.Printf("Reporting-MTA: x-local-hostname; %s\n", hostId)
 	fmt.Printf("Arrival-Date: %s\n", firstAttempt)
 	
 	if envelopeId != "" {
