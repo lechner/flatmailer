@@ -70,10 +70,10 @@ func init() {
 }
 
 type Config struct {
-	mailName, hostId string
-	defaultHost, defaultDomain string
+	mailName, hostId                     string
+	defaultHost, defaultDomain           string
 	postMaster, bounceTo, doubleBounceTo string
-	quoteLimit string
+	quoteLimit                           string
 }
 
 func readConfig() Config {
@@ -86,30 +86,28 @@ func readConfig() Config {
 	config.defaultDomain = "us-core.com"
 	config.postMaster = "felix.lechner@lease-up.com"
 
-//	if  config.hostId == "" {
-  // 		config.hostId = config.defaultHost
+	//	if  config.hostId == "" {
+	// 		config.hostId = config.defaultHost
 
-  // 		if config.hostId != "localhost" {
-		
-  // 	}
+	// 		if config.hostId != "localhost" {
 
-	
-  // 	}
-  // 	}
-  // 	if config.hostId != "" && config.hostId != "localhost" &&  no dots found {
-  // 		if defaultDomain != "" {
-			
-  // if(!domain)
-  //   domain = defaulthost;
-  // if(domain != "localhost" && domain.find_first('.') < 0) {
-  //   if(!!defaultdomain) {
-  //     if (!!domain) domain += ".";
-  //     domain += defaultdomain;
-  //   }
+	// 	}
+
+	// 	}
+	// 	}
+	// 	if config.hostId != "" && config.hostId != "localhost" &&  no dots found {
+	// 		if defaultDomain != "" {
+
+	// if(!domain)
+	//   domain = defaulthost;
+	// if(domain != "localhost" && domain.find_first('.') < 0) {
+	//   if(!!defaultdomain) {
+	//     if (!!domain) domain += ".";
+	//     domain += defaultdomain;
+	//   }
 	// }
 	return config
 }
-
 
 func main() {
 
@@ -121,20 +119,20 @@ func main() {
 	flag.Parse()
 
 	config := readConfig()
-	
+
 	ourInputFormat := time.RFC3339
 	ourOutputFormat := time.RFC1123Z
-	
+
 	if len(flag.Args()) != 1 {
 		log.Fatalln("Need exactly one argument besides flags")
-	}	
+	}
 	status := flag.Arg(0)
 
 	var class, subject, detail int
 	items, err := fmt.Sscanf(status, "%1d.%3d.%3d",
 		&class, &subject, &detail)
 	if items != 3 || (class != 4 && class != 5) {
-		log.Fatalln("Status must have format 4.#.# or 5.#.#:", err);
+		log.Fatalln("Status must have format 4.#.# or 5.#.#:", err)
 	}
 
 	delay := (class == 4)
@@ -179,7 +177,7 @@ func main() {
 	// the retry time limit
 	if failAfter != "" {
 		// rewrite timestamp in our output format
-		timestamp, err := time.Parse(ourInputFormat, failAfter);
+		timestamp, err := time.Parse(ourInputFormat, failAfter)
 		if err != nil {
 			log.Fatalln("timestamp", failAfter,
 				"has invalid format:", err)
@@ -198,7 +196,7 @@ func main() {
 			log.Fatalln("parameter for quote limit must me a number")
 		}
 	}
-	
+
 	hostId := config.hostId
 	if hostId == "" {
 		hostId = config.mailName
@@ -217,7 +215,7 @@ func main() {
 		thisTime.Nanosecond(), os.Getpid())
 	// original: microseconds with six digits
 	messageId := fmt.Sprintf("<%s.flatmailer@%s>", boundary, hostId)
-		
+
 	// read from stdin
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -228,7 +226,7 @@ func main() {
 				err)
 		}
 	}
-	sender:= scanner.Text()	
+	sender := scanner.Text()
 
 	// read original recipients
 	var recipients []string
@@ -261,7 +259,7 @@ func main() {
 	fmt.Printf("\n")
 
 	// generate delivery status notification
-	
+
 	fmt.Printf("\n")
 	fmt.Printf("From: Message Delivery Subsystem <MAILER-DAEMON@%s\n",
 		hostId)
@@ -287,12 +285,12 @@ func main() {
 		fmt.Printf("could not be")
 	}
 	fmt.Printf(" delivered to one or more of the intended recipients:\n")
-	
+
 	fmt.Printf("\n")
 	for _, recipient := range recipients {
 		fmt.Printf("\t<%s>\n", recipient)
 	}
-	
+
 	if delay {
 		if failAfter != "" {
 			fmt.Printf("\n")
@@ -303,17 +301,17 @@ func main() {
 		fmt.Printf("A final delivery status notification will be generated if delivery\n")
 		fmt.Printf("proves to be impossible within the configured time limit.\n")
 	}
-	
+
 	// delivery-status portion
 
 	fmt.Printf("\n")
 	fmt.Printf("--%s\n", boundary)
 	fmt.Printf("Content-Type: message/delivery-status\n")
-	
+
 	fmt.Printf("\n")
 	fmt.Printf("Reporting-MTA: x-local-hostname; %s\n", hostId)
 	fmt.Printf("Arrival-Date: %s\n", firstAttempt)
-	
+
 	if envelopeId != "" {
 		fmt.Printf("Original-Envelope-Id: %s\n", envelopeId)
 	}
@@ -339,19 +337,19 @@ func main() {
 			fmt.Printf("Will-Retry-Until: %s\n", failAfter)
 		}
 	}
-	
+
 	// copy the original message
 	fmt.Printf("\n")
 	fmt.Printf("--%s\n", boundary)
 	fmt.Printf("Content-Type: message/rfc822")
 	fmt.Printf("\n")
-	
+
 	// copy header
 	for scanner.Scan() {
 		line := scanner.Text()
 		if len(line) == 0 {
 			break
-		}		
+		}
 		fmt.Println(line)
 	}
 	if err := scanner.Err(); err != nil {
@@ -370,7 +368,7 @@ func main() {
 			log.Fatalln("Could not read message body:", err)
 		}
 	}
-	
+
 	fmt.Printf("\n")
 	fmt.Printf("--%s\n", boundary)
 }
